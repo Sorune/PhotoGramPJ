@@ -12,7 +12,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class GenericService<Entity extends BaseEntity, DTO> {
 
-    private final JpaRepository<Entity, Long> repository;
+    private final JpaRepository<Entity,Long> repository;
     private final ModelMapper modelMapper;
     private final Class<Entity> entityClass;
     private final Class<DTO> dtoClass;
