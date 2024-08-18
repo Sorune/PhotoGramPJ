@@ -5,7 +5,8 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 .kts
-.properties
+*.gradle.kts
+*.properties
 
 ### STS ###
 .apt_generated
