@@ -1,4 +1,4 @@
-package com.sorune.photogrampj.post;
+package com.sorune.photogrampj.content.post;
 
 import com.sorune.photogrampj.common.service.GenericService;
 import org.modelmapper.ModelMapper;

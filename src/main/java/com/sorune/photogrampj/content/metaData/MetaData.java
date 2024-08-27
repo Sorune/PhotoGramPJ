@@ -1,4 +1,4 @@
-package com.sorune.photogrampj.tags;
+package com.sorune.photogrampj.content.metaData;
 
 import com.sorune.photogrampj.common.entity.BaseEntity;
 import jakarta.persistence.Entity;
@@ -8,15 +8,18 @@ import lombok.*;
 
 @Entity
 @Builder
+@Setter
+@Getter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@ToString
-public class HashTag extends BaseEntity {
+public class MetaData extends BaseEntity {
+
     @Id
     @GeneratedValue
-    private long tagId;
+    private long metaId;
 
-    private String tagName;
+    private boolean isImage;
+
+
 }

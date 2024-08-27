@@ -1,7 +1,7 @@
-package com.sorune.photogrampj.comment;
+package com.sorune.photogrampj.content.attachment;
 
 import com.sorune.photogrampj.common.entity.BaseEntity;
-import com.sorune.photogrampj.content.post.Post;
+import com.sorune.photogrampj.content.metaData.MetaData;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -10,19 +10,20 @@ import lombok.*;
 
 @Entity
 @Builder
-@Setter
 @Getter
+@Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Comment extends BaseEntity {
+public class Attachment extends BaseEntity {
     @Id
     @GeneratedValue
-    private long comId;
+    private long attachId;
+
+    private String fileType;
+    private String filePath;
+    private String fileFullPath;
 
     @ManyToOne
-    private Post postId;
-
-
-
+    private MetaData metaData;
 }

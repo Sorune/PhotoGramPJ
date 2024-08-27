@@ -1,4 +1,4 @@
-package com.sorune.photogrampj.post;
+package com.sorune.photogrampj.content.post;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

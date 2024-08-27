@@ -1,4 +1,4 @@
-package com.sorune.photogrampj.common.advice;
+package com.sorune.photogrampj.common.handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

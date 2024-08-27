@@ -1,5 +1,6 @@
-package com.sorune.photogrampj.comment;
+package com.sorune.photogrampj.subComment;
 
+import com.sorune.photogrampj.comment.Comment;
 import com.sorune.photogrampj.common.entity.BaseEntity;
 import com.sorune.photogrampj.content.post.Post;
 import jakarta.persistence.Entity;
@@ -10,19 +11,19 @@ import lombok.*;
 
 @Entity
 @Builder
-@Setter
-@Getter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Comment extends BaseEntity {
+@Getter
+@Setter
+@ToString
+public class SubComment extends BaseEntity {
     @Id
     @GeneratedValue
-    private long comId;
+    private long subComId;
 
     @ManyToOne
-    private Post postId;
+    private Comment comment;
 
-
-
+    @ManyToOne
+    private Post post;
 }

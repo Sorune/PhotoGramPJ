@@ -1,7 +1,8 @@
-package com.sorune.photogrampj.post;
+package com.sorune.photogrampj.content.post;
 
 import com.sorune.photogrampj.common.entity.BaseEntity;
 import com.sorune.photogrampj.common.enums.Types;
+import com.sorune.photogrampj.content.attachment.Attachment;
 import com.sorune.photogrampj.member.Member;
 import com.sorune.photogrampj.tags.HashTag;
 import jakarta.persistence.*;
@@ -18,6 +19,7 @@ public class Post extends BaseEntity {
     @Id
     @GeneratedValue
     private Long postId;
+
     private String title;
     private String content;
 
@@ -29,6 +31,9 @@ public class Post extends BaseEntity {
 
     private long viewCount;
     private long likeCount;
+
+    @ManyToOne
+    private Attachment attachment;
 
     @ManyToOne
     private HashTag hashTag;
