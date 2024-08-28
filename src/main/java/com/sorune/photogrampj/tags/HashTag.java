@@ -19,4 +19,5 @@ public class HashTag extends BaseEntity {
     private long tagId;
 
     private String tagName;
+    private String tagValue;
 }

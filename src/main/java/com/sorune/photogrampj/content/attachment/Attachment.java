@@ -1,7 +1,7 @@
 package com.sorune.photogrampj.content.attachment;
 
 import com.sorune.photogrampj.common.entity.BaseEntity;
-import com.sorune.photogrampj.content.metaData.MetaData;
+import com.sorune.photogrampj.content.imageMetaData.ImageMetaData;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -20,10 +20,13 @@ public class Attachment extends BaseEntity {
     @GeneratedValue
     private long attachId;
 
+    private String uuid;
+    private String fileName;
     private String fileType;
     private String filePath;
     private String fileFullPath;
+    private boolean isImage;
 
     @ManyToOne
-    private MetaData metaData;
+    private ImageMetaData imageMetaData;
 }
