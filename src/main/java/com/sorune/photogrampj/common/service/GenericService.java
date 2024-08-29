@@ -10,11 +10,9 @@ import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 @RequiredArgsConstructor
 public class GenericService<Entity extends BaseEntity, DTO> {

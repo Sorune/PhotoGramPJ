@@ -7,6 +7,7 @@ import com.drew.metadata.Tag;
 import com.sorune.photogrampj.content.imageMetaData.ImageMetaData;
 
 import java.io.File;
+import java.util.Objects;
 
 public class ImageMetaDataProcessUtil {
 
@@ -18,7 +19,7 @@ public class ImageMetaDataProcessUtil {
             //throw new RuntimeException(e);
             e.printStackTrace();
         }
-        for (Directory directory : metadata.getDirectories()) {
+        for (Directory directory : Objects.requireNonNull(metadata).getDirectories()) {
             for (Tag tag : directory.getTags()) {
                 System.out.println(tag);
             }
