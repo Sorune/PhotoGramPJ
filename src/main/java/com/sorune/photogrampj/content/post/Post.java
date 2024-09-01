@@ -1,12 +1,15 @@
 package com.sorune.photogrampj.content.post;
 
 import com.sorune.photogrampj.common.entity.BaseEntity;
-import com.sorune.photogrampj.common.enums.Types;
+import com.sorune.photogrampj.common.enums.PostTypes;
 import com.sorune.photogrampj.content.attachment.Attachment;
 import com.sorune.photogrampj.member.Member;
 import com.sorune.photogrampj.tags.HashTag;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -27,7 +30,7 @@ public class Post extends BaseEntity {
     private Member writer;
 
     @Enumerated(EnumType.STRING)
-    private Types postType;
+    private PostTypes postType;
 
     private long viewCount;
     private long likeCount;
@@ -35,7 +38,14 @@ public class Post extends BaseEntity {
     @ManyToOne
     private Attachment attachment;
 
-    @ManyToOne
-    private HashTag hashTag;
+    @ManyToMany
+    @JoinTable(
+            name = "post_hash_tag",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    @ToString.Exclude
+    @Builder.Default
+    private List<HashTag> hashTags = new ArrayList<>();
 
 }

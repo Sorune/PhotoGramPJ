@@ -2,11 +2,15 @@ package com.sorune.photogrampj.comment;
 
 import com.sorune.photogrampj.common.entity.BaseEntity;
 import com.sorune.photogrampj.content.post.Post;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import com.sorune.photogrampj.member.Member;
+import com.sorune.photogrampj.tags.HashTag;
+import jakarta.persistence.*;
+import kotlin.Lazy;
 import lombok.*;
+
+import javax.swing.text.html.HTML;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
@@ -21,8 +25,32 @@ public class Comment extends BaseEntity {
     private long comId;
 
     @ManyToOne
+    @JoinColumn(name = "post_id", nullable = false)
     private Post postId;
 
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private Comment parentComment;
 
+    @OneToMany(mappedBy = "parentComment",cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @Builder.Default
+    private List<Comment> subComments = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "post_hash_tag",
+            joinColumns = @JoinColumn(name = "com_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    @Builder.Default
+    private List<HashTag> tags = new ArrayList<>();
+
+    private String content;
+
+    @ManyToOne
+    private Member author;
+
+    private boolean isDeleted;
 
 }

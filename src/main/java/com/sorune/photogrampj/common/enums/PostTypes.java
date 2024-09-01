@@ -1,6 +1,6 @@
 package com.sorune.photogrampj.common.enums;
 
-public enum Types {
+public enum PostTypes {
     Post,
     Community
 }
