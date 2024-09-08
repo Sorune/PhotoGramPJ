@@ -35,14 +35,20 @@ public class SecurityConfig {
                         sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeHttpRequests ->
                         authorizeHttpRequests
-                                .requestMatchers("/css/**","/js/**","/img/**").permitAll()
+                                .requestMatchers("/css/**","/js/**","/img/**","/portfolio/**"/*이미지 소스 경로*/).permitAll()
+                                .requestMatchers("/").permitAll()
+                                .requestMatchers("/api/login","/register").permitAll()
+                                /*테스트용 requestMatchers*/
+                                .requestMatchers("/chat").permitAll()
                                 .anyRequest().authenticated()
                 )
-                .formLogin(config-> {
-                    config.loginPage("/api/member/login")
-                            .successHandler(new APILoginSuccessHandler())
-                            .failureHandler(new APILoginFailHandler());
-                })
+                .formLogin(config->
+                        config
+                                .loginPage("/login")
+                                .successHandler(new APILoginSuccessHandler())
+                                .failureHandler(new APILoginFailHandler())
+                                .permitAll()
+                )
         ;
 
         return httpSecurity.build();

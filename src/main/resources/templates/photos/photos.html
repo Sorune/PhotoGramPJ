@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/layout}"
+>
+<head>
+    <title></title>
+</head>
+<div layout:fragment="content">
+    <!-- Layout wrapper -->
+    <div class="container-fluid">
+        <!-- ======= imgcell Section ======= -->
+        <section id="imgcell" class="imgcell" style="position: relative;">
+            <div class="container" data-aos="fade-up">
+
+                <div class="section-title">
+                    <h2>imgcell</h2>
+                    <p>Check our imgcell</p>
+                </div>
+
+                <div class="row" data-aos="fade-up" data-aos-delay="100">
+                    <div class="col-lg-12 d-flex justify-content-center">
+                        <ul id="imgcell-filters">
+                            <li data-filter="*" class="filter-active">All</li>
+                            <li data-filter=".filter-app">App</li>
+                            <li data-filter=".filter-card">Card</li>
+                            <li data-filter=".filter-web">Web</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row imgcell-container" data-aos="fade-up" data-aos-delay="200">
+
+                    <div class="col-lg-4 col-md-6 imgcell-item filter-app">
+                        <div class="imgcell-wrap">
+                            <img th:src="@{/portfolio/portfolio-1.jpg}" class="img-fluid" alt="">
+                            <div class="imgcell-info">
+                                <h4>App 1</h4>
+                                <p>App</p>
+                                <div class="imgcell-links">
+                                    <a th:href="@{/portfolio/portfolio-1.jpg}" data-gallery="imgcellGallery" class="imgcell-lightbox" title="App 1"><i class="bx bx-plus"></i></a>
+                                    <a th:href="@{/photos/imgcell-details.html}" title="More Details"><i class="bx bx-link"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 imgcell-item filter-web">
+                        <div class="imgcell-wrap">
+                            <img th:src="@{/portfolio/portfolio-2.jpg}" class="img-fluid" alt="">
+                            <div class="imgcell-info">
+                                <h4>Web 1</h4>
+                                <p>Web</p>
+                                <div class="imgcell-links">
+                                    <a th:href="@{/portfolio/portfolio-2.jpg}" data-gallery="imgcellGallery" class="imgcell-lightbox" title="Web 3"><i class="bx bx-plus"></i></a>
+                                    <a href="imgcell-details.html" title="More Details"><i class="bx bx-link"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 imgcell-item filter-app">
+                        <div class="imgcell-wrap">
+                            <img th:src="@{/portfolio/portfolio-3.jpg}" class="img-fluid" alt="">
+                            <div class="imgcell-info">
+                                <h4>App 2</h4>
+                                <p>App</p>
+                                <div class="imgcell-links">
+                                    <a th:href="@{/portfolio/portfolio-3.jpg}" data-gallery="imgcellGallery" class="imgcell-lightbox" title="App 2"><i class="bx bx-plus"></i></a>
+                                    <a href="imgcell-details.html" title="More Details"><i class="bx bx-link"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 imgcell-item filter-card">
+                        <div class="imgcell-wrap">
+                            <img th:src="@{/portfolio/portfolio-4.jpg}" class="img-fluid" alt="">
+                            <div class="imgcell-info">
+                                <h4>Card 2</h4>
+                                <p>Card</p>
+                                <div class="imgcell-links">
+                                    <a th:href="@{/portfolio/portfolio-4.jpg}" data-gallery="imgcellGallery" class="imgcell-lightbox" title="Card 2"><i class="bx bx-plus"></i></a>
+                                    <a href="imgcell-details.html" title="More Details"><i class="bx bx-link"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 imgcell-item filter-web">
+                        <div class="imgcell-wrap">
+                            <img th:src="@{/portfolio/portfolio-5.jpg}" class="img-fluid" alt="">
+                            <div class="imgcell-info">
+                                <h4>Web 2</h4>
+                                <p>Web</p>
+                                <div class="imgcell-links">
+                                    <a th:href="@{/portfolio/portfolio-5.jpg}" data-gallery="imgcellGallery" class="imgcell-lightbox" title="Web 2"><i class="bx bx-plus"></i></a>
+                                    <a href="imgcell-details.html" title="More Details"><i class="bx bx-link"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 imgcell-item filter-app">
+                        <div class="imgcell-wrap">
+                            <img th:src="@{/portfolio/portfolio-6.jpg}" class="img-fluid" alt="">
+                            <div class="imgcell-info">
+                                <h4>App 3</h4>
+                                <p>App</p>
+                                <div class="imgcell-links">
+                                    <a th:href="@{/portfolio/portfolio-6.jpg}" data-gallery="imgcellGallery" class="imgcell-lightbox" title="App 3"><i class="bx bx-plus"></i></a>
+                                    <a href="imgcell-details.html" title="More Details"><i class="bx bx-link"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 imgcell-item filter-card">
+                        <div class="imgcell-wrap">
+                            <img th:src="@{/portfolio/portfolio-7.jpg}" class="img-fluid" alt="">
+                            <div class="imgcell-info">
+                                <h4>Card 1</h4>
+                                <p>Card</p>
+                                <div class="imgcell-links">
+                                    <a th:href="@{/portfolio/portfolio-7.jpg}" data-gallery="imgcellGallery" class="imgcell-lightbox" title="Card 1"><i class="bx bx-plus"></i></a>
+                                    <a href="imgcell-details.html" title="More Details"><i class="bx bx-link"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 imgcell-item filter-card">
+                        <div class="imgcell-wrap">
+                            <img th:src="@{/portfolio/portfolio-8.jpg}" class="img-fluid" alt="">
+                            <div class="imgcell-info">
+                                <h4>Card 3</h4>
+                                <p>Card</p>
+                                <div class="imgcell-links">
+                                    <a th:href="@{/portfolio/portfolio-8.jpg}" data-gallery="imgcellGallery" class="imgcell-lightbox" title="Card 3"><i class="bx bx-plus"></i></a>
+                                    <a href="imgcell-details.html" title="More Details"><i class="bx bx-link"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 imgcell-item filter-web">
+                        <div class="imgcell-wrap">
+                            <img th:src="@{/portfolio/portfolio-9.jpg}" class="img-fluid" alt="">
+                            <div class="imgcell-info">
+                                <h4>Web 3</h4>
+                                <p>Web</p>
+                                <div class="imgcell-links">
+                                    <a th:href="@{/portfolio/portfolio-9.jpg}" data-gallery="imgcellGallery" class="imgcell-lightbox" title="Web 3"><i class="bx bx-plus"></i></a>
+                                    <a href="imgcell-details.html" title="More Details"><i class="bx bx-link"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section><!-- End imgcell Section -->
+
+    </div>
+    <!-- / Layout wrapper -->
+</div>
+
+</html>

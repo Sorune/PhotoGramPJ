@@ -20,4 +20,9 @@ public class NotificationService extends GenericService<Notification,Notificatio
 
         messagingTemplate.convertAndSendToUser(recipient,"/pg/noti",message);
     }
+
+    public NotificationDTO checkRead(NotificationDTO notification) {
+        notification.setRead(true);
+        return notification;
+    }
 }

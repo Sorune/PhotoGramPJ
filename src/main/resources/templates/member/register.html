@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head th:replace="~{fragments/header :: header}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <div class="container pt-6">
+    <div class="card o-hidden border-0 shadow-lg my-3">
+        <div class="card-body p-2">
+          <!-- Nested Row within Card Body -->
+          <div class="row justify-content-center">
+            <div class="col-lg-7 p-5">
+              <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4">회원가입을 해보자 !</h1>
+              </div>
+              <input type="file" name="imgList" id="file-input" accept="image/*" style="display: none;" multiple>
+              <form role="form" class="user" action="/register" method="post">
+                <input type="hidden" name="${_csrf.parameterName}" value = "${_csrf.token}"/>
+                  <div class="row justify-content-center">
+                    <div class="col-4">
+                      <div id="uploadedImages" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                        <div class="carousel-inner" style="width:100%;height:auto;">
+                          <div id="drop-area" style="width:100%;">
+                            <p>이미지를 드래그 앤 드롭 하거나 클릭하여 업로드하세요.</p>
+                          </div>
+                        </div>
+                      <button class="carousel-control-prev" type="button" data-bs-target="#uploadedImages" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#uploadedImages" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                      </button>
+                      <button type="button" class="carousel-control-add" id="uploadImage" data-bs-target="#uploadedImages">
+                        <span class="bi bi-file-plus fz20" aria-hidden="true"></span>
+                        <span class="visually-hidden">Add</span>
+                      </button>
+                      <button type="button" class="carousel-control-remove" id="deleteImage" data-bs-target="#uploadedImages">
+                        <span class="bi bi-file-x fz20" aria-hidden="true"></span>
+                        <span class="visually-hidden">Remove</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-8">
+                    <div class="form-group">
+                      <div class="mb-sm-1 pt-3">
+                        <input type="text" class="form-control form-control-user" id="ID" name="username" placeholder="아이디">
+                      </div>
+                    </div>
+                  <div class="form-group">
+                    <div class="mb-sm-1 pt-3">
+                      <input type="password" class="form-control form-control-user" id="password" name="password" placeholder="비밀번호">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-6 pt-3">
+                      <input type="text" class="form-control form-control-user" id="name" name="name" placeholder="이름">
+                    </div>
+                    <div class="col-sm-6 pt-3">
+                      <input type="text" class="form-control form-control-user" id="Nickname" name="nickName" placeholder="닉네임">
+                    </div>
+                  </div>
+                <div class="form-group">
+                  <div class="mb-sm-1 pt-3">
+                    <input type="text" class="form-control form-control-user" id="phone" name="phone" placeholder="핸드폰번호">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-6 mb-sm-1 pt-3">
+                <input type="text" class="form-control form-control-user" name="zoneCode" placeholder="우편번호">
+              </div>
+              <div class="col-sm-6 pt-3">
+                <a type="button" class="btn btn-primary btn-user btn-block" id="addressInput">우편번호</a>
+              </div>
+              <div class="col-sm-12 mb-sm-1">
+                <input type="text" class="form-control form-control-user" name="roadAddress" placeholder="도로명주소">
+              </div>
+              <div class="col-sm-12 mb-sm-1">
+                <input type="text" class="form-control form-control-user" name="buildingName" placeholder="건물이름">
+              </div>
+              <div class="col-sm-6 mb-sm-3">
+                <input type="text" class="form-control form-control-user" name="address" placeholder="나머지">
+              </div>
+            </div>
+            <div class="row">
+              <button type="submit" class="col-sm-6 btn btn-primary btn-user btn-block">회원가입</button>
+              <div class="col-sm-6 text-center">
+                <a class="small" href="/loginAuth">로그인으로 돌아가기</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+  <script>
+    console.log(document.getElementById("addressInput"));
+    document.getElementById("addressInput").addEventListener("click",function(){
+      new daum.Postcode({
+        oncomplete: function(data) {
+          // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+          // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+          document.querySelector('[name=zoneCode]').value = data.zonecode;
+          document.querySelector('[name=roadAddress]').value = data.roadAddress;
+          document.querySelector('[name=buildingName]').value = data.buildingName;
+        }
+      }).open();
+    });
+  </script>
+</body>
+</html>

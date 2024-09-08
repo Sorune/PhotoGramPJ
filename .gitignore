@@ -44,3 +44,5 @@ compose.yaml
 
 ###HTML###
 /vender/
+/src/main/resources/static/vender/
+/src/main/resources/static/portfolio/

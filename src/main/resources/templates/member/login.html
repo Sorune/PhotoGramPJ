@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head th:replace="~{fragments/header :: header}">
+    <meta charset="UTF-8"
+          xmlns:th="http://www.thymeleaf.org">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="custom-container">
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row justify-content-center">
+                            <div class="col-4 p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">Welcome!</h1>
+                                </div>
+                                <form class="user" id="loginForm" method="post" action="/login">
+                                    <div class="form-group px-5 py-2">
+                                        <input type="text" class="form-control form-control-user" id="exampleInputEmail" name="username" placeholder="Enter Your Id...">
+                                    </div>
+                                    <div class="form-group px-5 py-2">
+                                        <input type="password" class="form-control form-control-user" id="exampleInputPassword" name="password" placeholder="Password">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox small">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck" name="remember-me">
+                                            <label class="custom-control-label" for="customCheck">Remember Me</label>
+                                        </div>
+                                    </div>
+                                    <button type="submit" id="loginBtn" class="col-sm-12 btn btn-primary btn-user btn-block">Login</button>
+                                    <hr>
+                                    <a href="index.html" class="btn btn-google btn-user btn-block">
+                                        <i class="fab fa-google fa-fw"></i> Login with kakao
+                                    </a>
+                                    <a href="index.html" class="btn btn-facebook btn-user btn-block">
+                                        <i class="fab fa-facebook-f fa-fw"></i> Login with instagram
+                                    </a>
+                                    <hr>
+                                </form>
+                                <div class="text-center">
+                                    <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                </div>
+                                <div class="text-center">
+                                    <a class="small" th:href="@{/register}">Create an Account!</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ./ Outer Row -->
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const loginBtn = document.getElementById('loginBtn');
+        const loginForm = document.getElementById('loginForm');
+
+        loginBtn.addEventListener('click', function(event) {
+            event.preventDefault(); // 기본 동작 중단
+
+            const formData = new FormData(loginForm);
+            fetch('/login', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.accessToken) {
+                        alert("로그인 되었습니다!");
+                        localStorage.setItem('accessToken', data.accessToken);
+                        // 필요한 경우 refreshToken도 저장
+                        localStorage.setItem('refreshToken', data.refreshToken);
+                        window.location.href = '/home'; // 홈페이지로 리디렉션
+                    } else {
+                        // 에러 처리
+                        console.error('Login failed:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    });
+</script>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

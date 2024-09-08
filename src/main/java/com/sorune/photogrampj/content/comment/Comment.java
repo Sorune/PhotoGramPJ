@@ -1,14 +1,12 @@
-package com.sorune.photogrampj.comment;
+package com.sorune.photogrampj.content.comment;
 
 import com.sorune.photogrampj.common.entity.BaseEntity;
 import com.sorune.photogrampj.content.post.Post;
 import com.sorune.photogrampj.member.Member;
 import com.sorune.photogrampj.tags.HashTag;
 import jakarta.persistence.*;
-import kotlin.Lazy;
 import lombok.*;
 
-import javax.swing.text.html.HTML;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,13 +42,12 @@ public class Comment extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     @Builder.Default
+    @ToString.Exclude
     private List<HashTag> tags = new ArrayList<>();
 
     private String content;
 
     @ManyToOne
     private Member author;
-
-    private boolean isDeleted;
 
 }
