@@ -131,5 +131,12 @@ new Swiper('.imgcell-details-slider', {
     el: '.swiper-pagination',
     type: 'bullets',
     clickable: true
+  },
+  navigation: {
+    nextEL: '.swiper-button-next',
+    prevEL: '.swiper-button-prev',
+  },
+  scrollbar:{
+    el: '.swiper-scrollbar',
   }
 });

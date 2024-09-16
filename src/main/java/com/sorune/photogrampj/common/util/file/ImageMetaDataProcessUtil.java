@@ -5,10 +5,12 @@ import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
 import com.sorune.photogrampj.content.imageMetaData.ImageMetaData;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.Objects;
 
+@Component
 public class ImageMetaDataProcessUtil {
 
     private ImageMetaData extractMetaData(File imageFile){
