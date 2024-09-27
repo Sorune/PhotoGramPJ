@@ -1,11 +1,11 @@
 package com.sorune.photogrampj.content.comment;
 
+import com.sorune.photogrampj.common.dto.BaseDTO;
 import com.sorune.photogrampj.content.post.Post;
 import com.sorune.photogrampj.member.MemberDTO;
 import com.sorune.photogrampj.tags.HashTagDTO;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class CommentDTO {
+public class CommentDTO extends BaseDTO {
     private long comId;
     private Post postId;
     private CommentDTO parentComment;
@@ -23,10 +23,4 @@ public class CommentDTO {
     private MemberDTO author;
     private List<HashTagDTO> tags = new ArrayList<>();
     private String content;
-
-
-    // from BaseEntity
-    private LocalDate createDate;
-    private LocalDate updateDate;
-    private boolean isDeleted;
 }

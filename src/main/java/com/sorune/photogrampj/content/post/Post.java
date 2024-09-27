@@ -35,8 +35,9 @@ public class Post extends BaseEntity {
     private long viewCount;
     private long likeCount;
 
-    @ManyToOne
-    private Attachment attachment;
+    @ManyToMany
+    @Builder.Default
+    private List<Attachment> attachments = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(

@@ -1,5 +1,6 @@
 package com.sorune.photogrampj.content.attachment;
 
+import com.sorune.photogrampj.common.dto.BaseDTO;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -10,15 +11,11 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AttachmentDTO {
+public class AttachmentDTO extends BaseDTO {
     private long attachId;
     private String uuid;
     private String fileName;
     private String filePath;
     private String fileFullPath;
     private boolean isImage;
-
-    private LocalDate createDate;
-    private LocalDate updateDate;
-    private boolean isDeleted;
 }
