@@ -1,5 +1,6 @@
 package com.sorune.photogrampj.notification;
 
+import com.sorune.photogrampj.common.dto.BaseDTO;
 import com.sorune.photogrampj.common.enums.NotiTypes;
 import com.sorune.photogrampj.member.MemberDTO;
 import lombok.*;
@@ -10,7 +11,7 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class NotificationDTO {
+public class NotificationDTO extends BaseDTO {
 
     private long noticeId;
     private MemberDTO member;

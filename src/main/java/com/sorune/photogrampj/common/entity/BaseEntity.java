@@ -1,20 +1,25 @@
 package com.sorune.photogrampj.common.entity;
 
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.MappedSuperclass;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
+@MappedSuperclass
 @Getter
 @Setter
-@ToString
-public class BaseEntity {
+@EntityListeners(AuditingEntityListener.class)
+public abstract class BaseEntity {
 
     @CreatedDate
-    private LocalDate createDate;
+    private LocalDateTime createDate;
     @LastModifiedDate
-    private LocalDate updateDate;
+    private LocalDateTime updateDate;
 
     private boolean isDeleted = false;
 }

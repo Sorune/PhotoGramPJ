@@ -4,6 +4,7 @@ import com.sorune.photogrampj.common.service.GenericService;
 import com.sorune.photogrampj.common.util.file.FileUtil;
 import com.sorune.photogrampj.common.util.redis.RedisUtil;
 import com.sorune.photogrampj.content.attachment.AttachmentService;
+import com.sorune.photogrampj.repository.jpa.PostRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 

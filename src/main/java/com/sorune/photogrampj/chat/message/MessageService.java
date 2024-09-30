@@ -1,5 +1,7 @@
 package com.sorune.photogrampj.chat.message;
 
+import com.sorune.photogrampj.repository.jpa.MessageRepository;
+import com.sorune.photogrampj.repository.redis.RedisMessageRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

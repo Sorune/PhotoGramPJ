@@ -1,5 +1,6 @@
 package com.sorune.photogrampj.tags;
 
+import com.sorune.photogrampj.common.dto.BaseDTO;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -10,12 +11,8 @@ import java.time.LocalDate;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class HashTagDTO {
+public class HashTagDTO extends BaseDTO {
     private long tagId;
     private String tagName;
     private String tagValue;
-
-    private LocalDate createDate;
-    private LocalDate updateDate;
-    private boolean isDeleted;
 }

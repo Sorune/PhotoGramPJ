@@ -1,5 +1,6 @@
 package com.sorune.photogrampj.member;
 
+import com.sorune.photogrampj.common.dto.BaseDTO;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -10,7 +11,7 @@ import java.time.LocalDate;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberDTO {
+public class MemberDTO extends BaseDTO {
     private long memId;
     private String email;
     private String password;
@@ -19,7 +20,5 @@ public class MemberDTO {
     private String address1;
     private String address2;
     private String address3;
-    private LocalDate createDate;
-    private LocalDate updateDate;
-    private boolean isDeleted;
+
 }

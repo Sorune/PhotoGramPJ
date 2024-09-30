@@ -1,6 +1,7 @@
 package com.sorune.photogrampj.notification;
 
 import com.sorune.photogrampj.common.service.GenericService;
+import com.sorune.photogrampj.repository.jpa.NotificationRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 

@@ -1,28 +1,70 @@
 package com.sorune.photogrampj.common.util.file;
 
+import jakarta.annotation.PostConstruct;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
-@Service
+@Component
 @Log4j2
 public class FileUtil {
     //파일 확장자 확인용 리스트
-    private final List<String> ALLOWED_EXTENTIONS = new ArrayList<>(Arrays.asList("jpeg","heif","heic","avif","nef","cr2","orf","rw2","rwl","srw","arw"));
+    private final static List<String> ALLOWED_EXTENTIONS = new ArrayList<>(Arrays.asList("jpeg","heif","heic","avif","nef","cr2","orf","rw2","rwl","srw","arw"));
     //메타데이터 처리용 유틸리티
     private final ImageMetaDataProcessUtil metaUtil = new ImageMetaDataProcessUtil();
+
+    @Value("${image.source.path}")
     //실제 파일 업로드 경로
-    private String uploadPath;
+    private  String uploadPath;
 
+    @PostConstruct
+    public void init() {
+        String envUploadDir = System.getenv("UPLOAD_DIR");
+        log.info("Environment UPLOAD_DIR: " + envUploadDir);
+        log.info("Upload Path from properties: " + uploadPath);
+        File uploadDirectory = new File(uploadPath);
+        log.info("Checking if directory exists: " + uploadDirectory.getAbsolutePath());
 
+        if (!uploadDirectory.exists()) {
+            boolean result = uploadDirectory.mkdirs();
+            if (result) {
+                log.info("Image Upload Directory Created at: " + uploadDirectory.getAbsolutePath());
+            } else {
+                log.error("Failed to create upload directory at: " + uploadDirectory.getAbsolutePath());
+            }
+        } else {
+            log.info("Upload directory already exists at: " + uploadDirectory.getAbsolutePath());
+        }
+    }
+
+    private String saveFile(MultipartFile file, String folderPath) throws IOException {
+        String uuid = UUID.randomUUID().toString();
+        String saveName = uploadPath + File.separator + folderPath + File.separator + uuid + "_" + file.getName();
+        Path savePath = Paths.get(saveName);
+        file.transferTo(savePath);
+        return saveName;
+    }
+
+    private boolean deleteFile(String filePullPath){
+        File file = new File(filePullPath);
+        if(file.exists()){
+            if (!file.delete()){
+                throw new RuntimeException("Fail to DeleteFile");
+            }
+        }
+        return true;
+    }
 
     //업로드 날짜에 해당하는 폴더 경로 생성
     private String makeFolder() {
@@ -47,8 +89,8 @@ public class FileUtil {
     }
 
     //이미지 확장자 일치 여부 확인
-    public boolean isCurrentImage(String fileType){
-        String type = fileType.substring(fileType.indexOf("/")+1).toLowerCase();
-        return ALLOWED_EXTENTIONS.contains(type);
+    public boolean isCurrentImage(Optional<String> fileType){
+        String mimeType = fileType.orElse("file").toLowerCase();
+        return mimeType.startsWith("image/") && ALLOWED_EXTENTIONS.contains(mimeType.substring(6));
     }
 }
