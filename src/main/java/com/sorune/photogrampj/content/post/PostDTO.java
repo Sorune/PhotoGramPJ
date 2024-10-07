@@ -22,7 +22,7 @@ public class PostDTO extends BaseDTO {
     private String content;
     @ToString.Exclude
     private MemberDTO writer;
-    private PostTypes postTypes;
+    private PostTypes postType;
     private long viewCount;
     private long likeCount;
     @Builder.Default

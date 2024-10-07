@@ -1,9 +1,11 @@
 package com.sorune.photogrampj.member;
 
 import com.sorune.photogrampj.common.dto.BaseDTO;
+import com.sorune.photogrampj.common.enums.Roles;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @Getter
@@ -21,4 +23,6 @@ public class MemberDTO extends BaseDTO {
     private String address2;
     private String address3;
 
+    @Builder.Default
+    private List<Roles> role = new ArrayList<>();
 }

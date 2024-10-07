@@ -48,6 +48,6 @@ public class Comment extends BaseEntity {
     private String content;
 
     @ManyToOne
-    private Member author;
+    private Member writer;
 
 }

@@ -2,7 +2,6 @@ package com.sorune.photogrampj.common.service;
 
 import com.sorune.photogrampj.common.entity.BaseEntity;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -18,10 +17,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public abstract class GenericService<Entity extends BaseEntity, DTO> {
 
-    private final JpaRepository<Entity,Long> repository;
-    private final ModelMapper modelMapper;
-    private final Class<Entity> entityClass;
-    private final Class<DTO> dtoClass;
+    protected final JpaRepository<Entity,Long> repository;
+    protected final ModelMapper modelMapper;
+    protected final Class<Entity> entityClass;
+    protected final Class<DTO> dtoClass;
 
     @PersistenceContext
     private EntityManager em;  // EntityManager 주입

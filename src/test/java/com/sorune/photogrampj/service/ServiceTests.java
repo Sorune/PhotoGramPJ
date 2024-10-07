@@ -1,5 +1,6 @@
 package com.sorune.photogrampj.service;
 
+import com.sorune.photogrampj.common.enums.PostTypes;
 import com.sorune.photogrampj.content.post.PostDTO;
 import com.sorune.photogrampj.content.post.PostService;
 import com.sorune.photogrampj.member.MemberDTO;
@@ -46,7 +47,8 @@ public class ServiceTests {
             PostDTO post = PostDTO.builder()
                     .title("test title"+i)
                     .content("test content"+i)
-                    .writer(memberService.findById(102+i))
+                    .writer(memberService.findById(1+i))
+                    .postType(PostTypes.Post)
                     .build();
             log.info(post.toString());
             post = postService.saveOrUpdate(post);
