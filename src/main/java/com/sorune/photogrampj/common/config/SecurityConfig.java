@@ -2,6 +2,7 @@ package com.sorune.photogrampj.common.config;
 
 import com.sorune.photogrampj.common.handler.APILoginFailHandler;
 import com.sorune.photogrampj.common.handler.APILoginSuccessHandler;
+import com.sorune.photogrampj.common.handler.APILogoutSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
@@ -44,9 +45,14 @@ public class SecurityConfig {
                 )
                 .formLogin(config->
                         config
-                                .loginPage("/login")
+                                .loginPage("/api/login")
                                 .successHandler(new APILoginSuccessHandler())
                                 .failureHandler(new APILoginFailHandler())
+                                .permitAll()
+                )
+                .logout(config ->
+                        config.logoutUrl("/api/logout")
+                                .logoutSuccessHandler(new APILogoutSuccessHandler())
                                 .permitAll()
                 )
         ;
@@ -73,6 +79,6 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
+    public BCryptPasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
 
 }
