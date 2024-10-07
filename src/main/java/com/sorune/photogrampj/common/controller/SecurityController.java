@@ -1,6 +1,5 @@
 package com.sorune.photogrampj.common.controller;
 
-import com.sorune.photogrampj.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.GetMapping;
