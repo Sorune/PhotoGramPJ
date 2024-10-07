@@ -37,7 +37,7 @@ public class ServiceTests {
                     .build();
             memberService.saveOrUpdate(member);
 
-            member.toString();
+            log.info(member.toString());
         }
     }
 
