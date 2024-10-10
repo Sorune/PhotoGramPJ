@@ -18,4 +18,5 @@ public class AttachmentDTO extends BaseDTO {
     private String filePath;
     private String fileFullPath;
     private boolean isImage;
+    private long fileSize;
 }

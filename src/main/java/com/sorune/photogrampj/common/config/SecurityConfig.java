@@ -42,6 +42,7 @@ public class SecurityConfig {
                                 .requestMatchers("/css/**","/js/**","/img/**","/portfolio/**"/*이미지 소스 경로*/).permitAll()
                                 .requestMatchers("/","/**").permitAll()
                                 .requestMatchers("/api/login","/register").permitAll()
+                                .requestMatchers("/api/upload","/api/imageUpload").permitAll()
                                 /*테스트용 requestMatchers*/
                                 .requestMatchers("/chat").permitAll()
                                 .anyRequest().authenticated()
