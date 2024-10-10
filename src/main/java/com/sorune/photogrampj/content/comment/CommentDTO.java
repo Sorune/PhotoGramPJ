@@ -19,8 +19,10 @@ public class CommentDTO extends BaseDTO {
     private long comId;
     private Post postId;
     private CommentDTO parentComment;
+    @Builder.Default
     private List<CommentDTO> subComments = new ArrayList<>();
-    private MemberDTO author;
+    private MemberDTO writer;
+    @Builder.Default
     private List<HashTagDTO> tags = new ArrayList<>();
     private String content;
 }
