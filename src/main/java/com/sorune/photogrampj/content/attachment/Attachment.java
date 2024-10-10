@@ -26,6 +26,7 @@ public class Attachment extends BaseEntity {
     private String filePath;
     private String fileFullPath;
     private boolean isImage;
+    private long fileSize;
 
     @ManyToOne
     private ImageMetaData imageMetaData;

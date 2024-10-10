@@ -5,10 +5,7 @@ import com.sorune.photogrampj.common.enums.PostTypes;
 import com.sorune.photogrampj.content.attachment.AttachmentDTO;
 import com.sorune.photogrampj.member.MemberDTO;
 import com.sorune.photogrampj.tags.HashTagDTO;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,16 +14,22 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class PostDTO extends BaseDTO {
     private long postId;
     private String title;
     private String content;
     @ToString.Exclude
-    private MemberDTO member;
-    private PostTypes postTypes;
+    private MemberDTO writer;
+    private PostTypes postType;
     private long viewCount;
     private long likeCount;
+    @Builder.Default
+    @ToString.Exclude
     private List<AttachmentDTO> attachments = new ArrayList<>();
+    @Builder.Default
+    @ToString.Exclude
     private List<HashTagDTO> hashTags = new ArrayList<>();
 
 }

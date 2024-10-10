@@ -8,6 +8,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +18,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/api")
 @RequiredArgsConstructor
 @Log4j2
 public class UploadController {
@@ -40,6 +42,17 @@ public class UploadController {
     public ResponseEntity<List<AttachmentDTO>> upload(MultipartFile[] files){
         List<AttachmentDTO> resultList = new ArrayList<>();
 
+        for(MultipartFile file : files){
+            AttachmentDTO attachmentDTO = AttachmentDTO.builder()
+                    .fileName(file.getName())
+                    .isImage(Objects.requireNonNull(file.getContentType()).toLowerCase().startsWith("image"))
+                    .fileSize(file.getSize())
+                    .build();
+            resultList.add(attachmentDTO);
+        }
+        for (AttachmentDTO result : resultList){
+            log.info("result : {}",result.toString());
+        }
         return new ResponseEntity<>(resultList,HttpStatus.OK);
     }
 }

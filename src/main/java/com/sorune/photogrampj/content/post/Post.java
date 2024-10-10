@@ -37,6 +37,7 @@ public class Post extends BaseEntity {
 
     @ManyToMany
     @Builder.Default
+    @ToString.Exclude
     private List<Attachment> attachments = new ArrayList<>();
 
     @ManyToMany
