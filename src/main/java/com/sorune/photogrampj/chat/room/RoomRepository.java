@@ -1,6 +1,5 @@
-package com.sorune.photogrampj.repository.jpa;
+package com.sorune.photogrampj.chat.room;
 
-import com.sorune.photogrampj.chat.room.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

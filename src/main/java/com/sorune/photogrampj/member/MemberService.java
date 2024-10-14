@@ -1,7 +1,6 @@
 package com.sorune.photogrampj.member;
 
 import com.sorune.photogrampj.common.service.GenericService;
-import com.sorune.photogrampj.repository.jpa.MemberRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 

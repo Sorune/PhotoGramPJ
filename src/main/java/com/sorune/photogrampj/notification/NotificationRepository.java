@@ -1,6 +1,5 @@
-package com.sorune.photogrampj.repository.jpa;
+package com.sorune.photogrampj.notification;
 
-import com.sorune.photogrampj.notification.Notification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface NotificationRepository extends JpaRepository<Notification,Long> {

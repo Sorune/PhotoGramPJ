@@ -1,6 +1,5 @@
-package com.sorune.photogrampj.repository.jpa;
+package com.sorune.photogrampj.member;
 
-import com.sorune.photogrampj.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

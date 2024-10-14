@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -24,6 +25,7 @@ public abstract class GenericService<Entity extends BaseEntity, DTO> {
 
     @PersistenceContext
     private EntityManager em;  // EntityManager 주입
+
 
     public DTO saveOrUpdate(DTO dto) {
         Entity entity = modelMapper.map(dto, entityClass);

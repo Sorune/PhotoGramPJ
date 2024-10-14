@@ -29,6 +29,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final APILoginSuccessHandler loginSuccessHandler;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
@@ -43,6 +45,7 @@ public class SecurityConfig {
                                 .requestMatchers("/","/**").permitAll()
                                 .requestMatchers("/api/login","/register").permitAll()
                                 .requestMatchers("/api/upload","/api/imageUpload").permitAll()
+                                .requestMatchers("/api/post/**").permitAll()
                                 /*테스트용 requestMatchers*/
                                 .requestMatchers("/chat").permitAll()
                                 .anyRequest().authenticated()
@@ -50,7 +53,7 @@ public class SecurityConfig {
                 .formLogin(config->
                         config
                                 .loginPage("/api/login")
-                                .successHandler(new APILoginSuccessHandler())
+                                .successHandler(loginSuccessHandler)
                                 .failureHandler(new APILoginFailHandler())
                                 .permitAll()
                 )

@@ -1,6 +1,5 @@
-package com.sorune.photogrampj.repository.jpa;
+package com.sorune.photogrampj.content.attachment;
 
-import com.sorune.photogrampj.content.attachment.Attachment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

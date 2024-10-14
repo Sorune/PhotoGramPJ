@@ -1,7 +1,6 @@
 package com.sorune.photogrampj.content.comment;
 
 import com.sorune.photogrampj.common.service.GenericService;
-import com.sorune.photogrampj.repository.jpa.CommentRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
