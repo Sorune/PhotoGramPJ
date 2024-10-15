@@ -1,6 +1,6 @@
 package com.sorune.photogrampj.common.util.jwt;
 
-import com.sorune.photogrampj.member.MemberDTO;
+import com.sorune.photogrampj.member.member.MemberDTO;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.log4j.Log4j2;
@@ -36,7 +36,7 @@ public class JwtUtil {
                 .compact();
     }
 
-    public static MemberDTO parseToken(String token){
+    public static Map<String,Object> parseToken(String token){
         SecretKey key;
         Map<String, Object> claims;
         try {
@@ -53,7 +53,7 @@ public class JwtUtil {
         } catch (Exception e){
             throw new CustomJWTException("Error");
         }
-        return modelMapper.map(claims, MemberDTO.class);
+        return claims;
 
     }
 

@@ -1,13 +1,14 @@
 package com.sorune.photogrampj.common.filter;
 
 import com.sorune.photogrampj.common.util.jwt.JwtUtil;
-import com.sorune.photogrampj.member.MemberDTO;
+import com.sorune.photogrampj.member.member.MemberDTO;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
 import org.jetbrains.annotations.NotNull;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 
 @Log4j2
 public class JwtCheckFilter extends OncePerRequestFilter {
+    private static final ModelMapper modelmapper = new ModelMapper();
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
@@ -37,7 +39,7 @@ public class JwtCheckFilter extends OncePerRequestFilter {
         try {
             String accessToken = authHeaderString.substring(7);
 
-            MemberDTO member = JwtUtil.parseToken(accessToken);
+            MemberDTO member = modelmapper.map(JwtUtil.parseToken(accessToken), MemberDTO.class);
             log.info("member : {}", member.toString());
 
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(member, member.getPassword(), member.getRole().stream().map(role -> new SimpleGrantedAuthority(role.name())).collect(Collectors.toList()));

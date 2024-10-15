@@ -14,7 +14,7 @@ public class PostService extends GenericService<Post,PostDTO> {
     private final AttachmentService attachService;
     private final RedisUtil redisUtil;
 
-    public PostService(PostRepository repository, ModelMapper modelMapper, AttachmentService attachService, FileUtil fileUtil, RedisUtil redisUtil) {
+    public PostService(JPAPostRepository repository, ModelMapper modelMapper, AttachmentService attachService, FileUtil fileUtil, RedisUtil redisUtil) {
         super(repository, modelMapper, Post.class, PostDTO.class);
         this.redisUtil = redisUtil;
         this.attachService = attachService;

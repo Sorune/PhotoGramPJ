@@ -1,4 +1,4 @@
-package com.sorune.photogrampj.member;
+package com.sorune.photogrampj.member.member;
 
 import com.sorune.photogrampj.common.entity.BaseEntity;
 import com.sorune.photogrampj.common.enums.Roles;

@@ -2,7 +2,7 @@ package com.sorune.photogrampj.common.handler;
 
 import com.google.gson.Gson;
 import com.sorune.photogrampj.common.util.jwt.JwtUtil;
-import com.sorune.photogrampj.member.MemberService;
+import com.sorune.photogrampj.member.member.MemberService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

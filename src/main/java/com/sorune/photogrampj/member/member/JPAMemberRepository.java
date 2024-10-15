@@ -1,10 +1,10 @@
-package com.sorune.photogrampj.member;
+package com.sorune.photogrampj.member.member;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MemberRepository extends JpaRepository<Member,Long> {
+public interface JPAMemberRepository extends JpaRepository<Member,Long> {
 
     Member findMemberByEmail(String email);
 

@@ -8,7 +8,7 @@ public class NotificationService extends GenericService<Notification,Notificatio
 
     private final SimpMessagingTemplate messagingTemplate;
 
-    public NotificationService(NotificationRepository repository, ModelMapper modelMapper, SimpMessagingTemplate messagingTemplate) {
+    public NotificationService(JPANotificationRepository repository, ModelMapper modelMapper, SimpMessagingTemplate messagingTemplate) {
         super(repository, modelMapper, Notification.class, NotificationDTO.class);
         this.messagingTemplate = messagingTemplate;
     }

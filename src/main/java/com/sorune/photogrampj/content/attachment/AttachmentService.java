@@ -12,7 +12,7 @@ public class AttachmentService extends GenericService<Attachment, AttachmentDTO>
     private final RedisUtil redisUtil;
     private final FileUtil fileUtil;
 
-    public AttachmentService(AttachmentRepository repository, ModelMapper modelMapper, RedisUtil redisUtil, FileUtil fileUtil) {
+    public AttachmentService(JPAAttachmentRepository repository, ModelMapper modelMapper, RedisUtil redisUtil, FileUtil fileUtil) {
         super(repository, modelMapper, Attachment.class, AttachmentDTO.class);
         this.redisUtil = redisUtil;
         this.fileUtil = fileUtil;

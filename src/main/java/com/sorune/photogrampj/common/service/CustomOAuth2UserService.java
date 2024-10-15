@@ -1,7 +1,7 @@
 package com.sorune.photogrampj.common.service;
 
 import com.sorune.photogrampj.common.dto.CustomUserDetails;
-import com.sorune.photogrampj.member.MemberDTO;
+import com.sorune.photogrampj.member.member.MemberDTO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;

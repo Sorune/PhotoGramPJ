@@ -1,8 +1,8 @@
 package com.sorune.photogrampj.common.service;
 
 import com.sorune.photogrampj.common.dto.CustomUserDetails;
-import com.sorune.photogrampj.member.MemberDTO;
-import com.sorune.photogrampj.member.MemberService;
+import com.sorune.photogrampj.member.member.MemberDTO;
+import com.sorune.photogrampj.member.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
