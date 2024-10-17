@@ -43,14 +43,14 @@ public class JwtCheckFilter extends OncePerRequestFilter {
         if (authHeaderString == null || !authHeaderString.startsWith("Bearer ")) {
             log.info("Authorization Header is Null");
             filterChain.doFilter(request, response);
-            return;
         }
 
         UsernamePasswordAuthenticationToken authenticationToken;
         try {
+            log.info("parse accessToken");
             String accessToken = authHeaderString.substring(7);
             Map<String, Object> claims = JwtUtil.parseToken(accessToken);
-            log.info("claims : {}",claims);
+            log.info("check filter claims : {}",claims);
             if(claims.get("email")!=null){
                 MemberDTO member = modelmapper.map(claims, MemberDTO.class);
                 log.info("member : {}", member.toString());

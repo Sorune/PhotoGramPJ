@@ -1,6 +1,5 @@
 package com.sorune.photogrampj.common.util.jwt;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.sorune.photogrampj.member.anonymous.RedisAnonymousMember;
@@ -63,15 +62,15 @@ public class JwtUtil {
     }
 
     public static Map<String,Object> parseToken(String token){
-        log.info("token : {}",token);
-        SecretKey key = Keys.hmacShaKeyFor(SECRETE_KEY.getBytes(StandardCharsets.UTF_8));
-        Map<String, Object> claims = Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
-        log.info("claims : {}",claims);
-        log.info("payload : {}", Jwts.parser().decryptWith(key).build().parseSignedClaims(token).getPayload());
 
         try {
-            key = Keys.hmacShaKeyFor(SECRETE_KEY.getBytes(StandardCharsets.UTF_8));
-            claims = Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
+            log.info("parse token : {}",token);
+            SecretKey key = Keys.hmacShaKeyFor(JwtUtil.SECRETE_KEY.getBytes(StandardCharsets.UTF_8));
+            Claims claim = Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map<String, Object> claims = objectMapper.registerModule(new JavaTimeModule()).convertValue(claim,Map.class);
+            log.info("jwt util claims : {}",claims.toString());
+            return claims;
         } catch (MalformedJwtException e) {
             throw new CustomJWTException("MalFormed");
         } catch (ExpiredJwtException e) {
@@ -81,9 +80,9 @@ public class JwtUtil {
         } catch (JwtException e) {
             throw new CustomJWTException("JwtException");
         } catch (Exception e){
-            throw new CustomJWTException("Error");
+            log.info(e.getMessage());
+            throw new CustomJWTException("Error : "+e.getMessage());
         }
-        return claims;
 
     }
 
@@ -107,7 +106,7 @@ public class JwtUtil {
     public static boolean isValid(String token) {
         try {
             Jwts.parser()
-                    .decryptWith(Keys.hmacShaKeyFor(SECRETE_KEY.getBytes(StandardCharsets.UTF_8)))
+                    .verifyWith(Keys.hmacShaKeyFor(SECRETE_KEY.getBytes(StandardCharsets.UTF_8)))
                     .build()
                     .parseSignedClaims(token)
                     .getPayload();

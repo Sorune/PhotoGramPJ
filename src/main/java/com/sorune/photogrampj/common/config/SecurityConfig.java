@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,6 +27,7 @@ import java.util.List;
 
 @Configuration
 @EnableMethodSecurity
+@EnableWebSecurity(debug = true)
 @Log4j2
 @RequiredArgsConstructor
 public class SecurityConfig {
@@ -36,12 +38,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .anonymous(AbstractHttpConfigurer::disable)
+                .anonymous(AbstractHttpConfigurer::disable);
+        httpSecurity
                 .cors(httpSecurityCorsConfigurer ->
-                        httpSecurityCorsConfigurer.configurationSource(configurationSource()))
-                .csrf(AbstractHttpConfigurer::disable)
+                        httpSecurityCorsConfigurer.configurationSource(configurationSource()));
+        httpSecurity
+                .csrf(AbstractHttpConfigurer::disable);
+        httpSecurity
                 .sessionManagement(sessionConfig ->
-                        sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        httpSecurity
+                .addFilterBefore(new JwtCheckFilter(), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity
+                .addFilterAfter(anonymousAuthenticationFilter,JwtCheckFilter.class);
+        httpSecurity
                 .authorizeHttpRequests(authorizeHttpRequests ->
                         authorizeHttpRequests
                                 .requestMatchers("/api/post/**").hasAnyRole("Member", "Anonymous")
@@ -51,22 +61,25 @@ public class SecurityConfig {
                                 .requestMatchers("/api/upload", "/api/imageUpload").permitAll()
                                 /*테스트용 requestMatchers*/
                                 .requestMatchers("/chat").permitAll()
+                                //프로메테우스 주소 해결
+                                .requestMatchers("/actuator/**","/metrics","/health").permitAll()
                                 .anyRequest().authenticated()
-                )
+                );
+        httpSecurity
                 .formLogin(config->
                         config
                                 .loginPage("/api/login")
                                 .successHandler(loginSuccessHandler)
                                 .failureHandler(new APILoginFailHandler())
                                 .permitAll()
-                )
-                .addFilterBefore(new JwtCheckFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterAfter(anonymousAuthenticationFilter,JwtCheckFilter.class)
+                );
+        httpSecurity
                 .logout(config ->
                         config.logoutUrl("/api/logout")
                                 .logoutSuccessHandler(new APILogoutSuccessHandler())
                                 .permitAll()
-                )
+                );
+        httpSecurity
                 .exceptionHandling(config->
                         config.accessDeniedHandler(new CompositeAccessDeniedHandler())
                                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
