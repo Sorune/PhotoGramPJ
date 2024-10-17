@@ -2,7 +2,7 @@ package com.sorune.photogrampj.content.comment;
 
 import com.sorune.photogrampj.common.entity.BaseEntity;
 import com.sorune.photogrampj.content.post.Post;
-import com.sorune.photogrampj.member.Member;
+import com.sorune.photogrampj.member.member.Member;
 import com.sorune.photogrampj.tags.HashTag;
 import jakarta.persistence.*;
 import lombok.*;
@@ -48,6 +48,6 @@ public class Comment extends BaseEntity {
     private String content;
 
     @ManyToOne
-    private Member author;
+    private Member writer;
 
 }

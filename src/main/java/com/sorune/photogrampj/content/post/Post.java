@@ -3,7 +3,7 @@ package com.sorune.photogrampj.content.post;
 import com.sorune.photogrampj.common.entity.BaseEntity;
 import com.sorune.photogrampj.common.enums.PostTypes;
 import com.sorune.photogrampj.content.attachment.Attachment;
-import com.sorune.photogrampj.member.Member;
+import com.sorune.photogrampj.member.member.Member;
 import com.sorune.photogrampj.tags.HashTag;
 import jakarta.persistence.*;
 import lombok.*;
@@ -37,6 +37,7 @@ public class Post extends BaseEntity {
 
     @ManyToMany
     @Builder.Default
+    @ToString.Exclude
     private List<Attachment> attachments = new ArrayList<>();
 
     @ManyToMany

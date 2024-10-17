@@ -12,6 +12,8 @@ public class RedisMessage extends BaseEntity {
     @Id
     private String msgId;
 
+    private String pMessage;
+
     public RedisMessage(){
         this.msgId = UUID.randomUUID().toString();
     }
