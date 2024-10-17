@@ -1,6 +1,7 @@
 package com.sorune.photogrampj.member.anonymous;
 
 import com.sorune.photogrampj.common.entity.RedisBaseEntity;
+import com.sorune.photogrampj.common.enums.Roles;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,4 +20,5 @@ public class RedisAnonymousMember extends RedisBaseEntity {
     private String nickName;
     private boolean isRestricted;
     private long lastActivity;
+    private final Roles role = Roles.Anonymous;
 }

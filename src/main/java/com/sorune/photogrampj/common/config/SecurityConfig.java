@@ -1,5 +1,6 @@
 package com.sorune.photogrampj.common.config;
 
+import com.sorune.photogrampj.common.filter.CustomAnonymousAuthenticationFilter;
 import com.sorune.photogrampj.common.filter.JwtCheckFilter;
 import com.sorune.photogrampj.common.handler.APILoginFailHandler;
 import com.sorune.photogrampj.common.handler.APILoginSuccessHandler;
@@ -30,10 +31,12 @@ import java.util.List;
 public class SecurityConfig {
 
     private final APILoginSuccessHandler loginSuccessHandler;
+    private final CustomAnonymousAuthenticationFilter anonymousAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
+                .anonymous(AbstractHttpConfigurer::disable)
                 .cors(httpSecurityCorsConfigurer ->
                         httpSecurityCorsConfigurer.configurationSource(configurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
@@ -41,11 +44,11 @@ public class SecurityConfig {
                         sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeHttpRequests ->
                         authorizeHttpRequests
-                                .requestMatchers("/css/**","/js/**","/img/**","/portfolio/**"/*이미지 소스 경로*/).permitAll()
-                                .requestMatchers("/","/**").permitAll()
-                                .requestMatchers("/api/login","/register").permitAll()
-                                .requestMatchers("/api/upload","/api/imageUpload").permitAll()
-                                .requestMatchers("/api/post/**").permitAll()
+                                .requestMatchers("/api/post/**").hasAnyRole("Member", "Anonymous")
+                                .requestMatchers("/css/**", "/js/**", "/img/**", "/portfolio/**"/*이미지 소스 경로*/).permitAll()
+                                .requestMatchers("/", "/**").permitAll()
+                                .requestMatchers("/api/login", "/register").permitAll()
+                                .requestMatchers("/api/upload", "/api/imageUpload").permitAll()
                                 /*테스트용 requestMatchers*/
                                 .requestMatchers("/chat").permitAll()
                                 .anyRequest().authenticated()
@@ -58,6 +61,7 @@ public class SecurityConfig {
                                 .permitAll()
                 )
                 .addFilterBefore(new JwtCheckFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(anonymousAuthenticationFilter,JwtCheckFilter.class)
                 .logout(config ->
                         config.logoutUrl("/api/logout")
                                 .logoutSuccessHandler(new APILogoutSuccessHandler())

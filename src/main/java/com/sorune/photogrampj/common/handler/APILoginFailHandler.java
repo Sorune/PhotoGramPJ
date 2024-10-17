@@ -30,8 +30,6 @@ public class APILoginFailHandler implements AuthenticationFailureHandler {
 
 
         String jsonStr = gson.toJson(Map.of("Error",errMsg,"OrignError",exception.getLocalizedMessage()));
-        PrintWriter printWriter = response.getWriter();
-        printWriter.println(jsonStr);
-        printWriter.close();
+        response.getWriter().write(jsonStr);
     }
 }

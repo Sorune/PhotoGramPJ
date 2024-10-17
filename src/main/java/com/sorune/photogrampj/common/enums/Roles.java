@@ -2,8 +2,9 @@ package com.sorune.photogrampj.common.enums;
 
 public enum Roles {
     Admin,
-    User,
+    Member,
     Manager,
     PhotoGraper,
-    Model
+    Model,
+    Anonymous
 }
