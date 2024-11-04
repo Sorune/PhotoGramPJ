@@ -1,5 +1,7 @@
 package com.sorune.photogrampj.common.controller;
 
+import com.sorune.photogrampj.common.dto.PageRequestDTO;
+import com.sorune.photogrampj.common.dto.PageResponseDTO;
 import com.sorune.photogrampj.content.post.PostDTO;
 import com.sorune.photogrampj.content.post.PostService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +28,11 @@ public class PostController {
         return post;
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<Map<String,Object>> getPosts(PageRequestDTO request){
 
+        return new ResponseEntity<>(Map.of(),HttpStatus.OK);
+    }
 
     // post는 hard delete로 해야하지 않나 싶다.
     @DeleteMapping("/delete/{postId}")

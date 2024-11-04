@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService extends GenericService<Post,PostDTO> {
@@ -26,7 +27,7 @@ public class PostService extends GenericService<Post,PostDTO> {
 
     public List<PostDTO> getAllPost(PostDTO postDTO){
 
-            return PostRepository.findAll().stream().map((element) -> modelMapper.map(element, PostDTO.class)).collect(Collectors.toList());
+            return super.repository.findAll().stream().map((element) -> modelMapper.map(element, PostDTO.class)).collect(Collectors.toList());
     }
 
 }
