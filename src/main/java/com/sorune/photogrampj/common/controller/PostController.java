@@ -44,6 +44,8 @@ public class PostController {
     @PutMapping("/update")
     public ResponseEntity<Map<String, Object>> update(@RequestBody PostDTO post) {
         log.info("update post: {}", post);
+        PostDTO existPost = postService.findById(post.getPostId());
+        post.setCreateDate(existPost.getCreateDate());
         post = postService.saveOrUpdate(post);
         return new ResponseEntity<>(Map.of("post",post), HttpStatus.OK);
     }
