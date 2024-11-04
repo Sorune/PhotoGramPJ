@@ -7,6 +7,9 @@ import com.sorune.photogrampj.content.attachment.AttachmentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class PostService extends GenericService<Post,PostDTO> {
 
@@ -20,4 +23,10 @@ public class PostService extends GenericService<Post,PostDTO> {
         this.attachService = attachService;
         this.fileUtil = fileUtil;
     }
+
+    public List<PostDTO> getAllPost(PostDTO postDTO){
+
+            return super.repository.findAll().stream().map((element) -> modelMapper.map(element, PostDTO.class)).collect(Collectors.toList());
+    }
+
 }
