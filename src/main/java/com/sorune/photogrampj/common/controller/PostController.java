@@ -41,6 +41,13 @@ public class PostController {
         return postService.findById(postId);
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<Map<String, Object>> update(@RequestBody PostDTO post) {
+        log.info("update post: {}", post);
+        post = postService.saveOrUpdate(post);
+        return new ResponseEntity<>(Map.of("post",post), HttpStatus.OK);
+    }
+
     @DeleteMapping("/{postId}")
     public boolean delete(@PathVariable Long postId) {
         log.info("delete post: {}", postId);
