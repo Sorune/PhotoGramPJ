@@ -15,15 +15,16 @@ import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class GenericService<Entity extends BaseEntity, DTO> {
+public abstract class GenericService<Entity extends BaseEntity, DTO> {
 
-    private final JpaRepository<Entity,Long> repository;
-    private final ModelMapper modelMapper;
-    private final Class<Entity> entityClass;
-    private final Class<DTO> dtoClass;
+    protected final JpaRepository<Entity,Long> repository;
+    protected final ModelMapper modelMapper;
+    protected final Class<Entity> entityClass;
+    protected final Class<DTO> dtoClass;
 
     @PersistenceContext
     private EntityManager em;  // EntityManager 주입
+
 
     public DTO saveOrUpdate(DTO dto) {
         Entity entity = modelMapper.map(dto, entityClass);
@@ -31,12 +32,12 @@ public class GenericService<Entity extends BaseEntity, DTO> {
         return modelMapper.map(entity, dtoClass);
     }
 
-    public DTO findById(Long id) {
+    public DTO findById(long id) {
         Entity entity = repository.findById(id).orElse(null);
         return modelMapper.map(entity, dtoClass);
     }
 
-    public boolean delete(Long id) {
+    public boolean delete(long id) {
         try {
             return repository.findById(id).map(entity -> {
                 entity.setDeleted(true);

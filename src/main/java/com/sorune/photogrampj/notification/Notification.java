@@ -2,7 +2,7 @@ package com.sorune.photogrampj.notification;
 
 import com.sorune.photogrampj.common.entity.BaseEntity;
 import com.sorune.photogrampj.common.enums.NotiTypes;
-import com.sorune.photogrampj.member.Member;
+import com.sorune.photogrampj.member.member.Member;
 import jakarta.persistence.*;
 import lombok.*;
 

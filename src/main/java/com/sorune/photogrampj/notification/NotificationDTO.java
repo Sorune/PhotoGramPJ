@@ -2,7 +2,7 @@ package com.sorune.photogrampj.notification;
 
 import com.sorune.photogrampj.common.dto.BaseDTO;
 import com.sorune.photogrampj.common.enums.NotiTypes;
-import com.sorune.photogrampj.member.MemberDTO;
+import com.sorune.photogrampj.member.member.MemberDTO;
 import lombok.*;
 
 @Builder
