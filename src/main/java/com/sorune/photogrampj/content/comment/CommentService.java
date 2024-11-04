@@ -1,14 +1,13 @@
 package com.sorune.photogrampj.content.comment;
 
 import com.sorune.photogrampj.common.service.GenericService;
-import com.sorune.photogrampj.repository.jpa.CommentRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CommentService extends GenericService<Comment,CommentDTO> {
 
-    public CommentService(CommentRepository repository, ModelMapper modelmapper){
+    public CommentService(JPACommentRepository repository, ModelMapper modelmapper){
         super(repository, modelmapper, Comment.class,CommentDTO.class);
     }
 }

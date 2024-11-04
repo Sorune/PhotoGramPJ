@@ -3,7 +3,7 @@ package com.sorune.photogrampj.content.post;
 import com.sorune.photogrampj.common.dto.BaseDTO;
 import com.sorune.photogrampj.common.enums.PostTypes;
 import com.sorune.photogrampj.content.attachment.AttachmentDTO;
-import com.sorune.photogrampj.member.MemberDTO;
+import com.sorune.photogrampj.member.member.MemberDTO;
 import com.sorune.photogrampj.tags.HashTagDTO;
 import lombok.*;
 

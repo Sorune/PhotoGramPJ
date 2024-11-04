@@ -1,10 +1,6 @@
 package com.sorune.photogrampj.common.enums;
 
-public enum Roles {
-    Admin,
+public enum MemberTypes {
     Member,
-    Manager,
-    PhotoGraper,
-    Model,
     Anonymous
 }

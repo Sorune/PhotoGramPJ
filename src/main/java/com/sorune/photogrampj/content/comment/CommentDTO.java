@@ -2,7 +2,7 @@ package com.sorune.photogrampj.content.comment;
 
 import com.sorune.photogrampj.common.dto.BaseDTO;
 import com.sorune.photogrampj.content.post.Post;
-import com.sorune.photogrampj.member.MemberDTO;
+import com.sorune.photogrampj.member.member.MemberDTO;
 import com.sorune.photogrampj.tags.HashTagDTO;
 import lombok.*;
 

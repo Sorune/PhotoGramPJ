@@ -4,7 +4,6 @@ import com.sorune.photogrampj.common.service.GenericService;
 import com.sorune.photogrampj.common.util.file.FileUtil;
 import com.sorune.photogrampj.common.util.redis.RedisUtil;
 import com.sorune.photogrampj.content.attachment.AttachmentService;
-import com.sorune.photogrampj.repository.jpa.PostRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +17,7 @@ public class PostService extends GenericService<Post,PostDTO> {
     private final AttachmentService attachService;
     private final RedisUtil redisUtil;
 
-    public PostService(PostRepository repository, ModelMapper modelMapper, AttachmentService attachService, FileUtil fileUtil, RedisUtil redisUtil) {
+    public PostService(JPAPostRepository repository, ModelMapper modelMapper, AttachmentService attachService, FileUtil fileUtil, RedisUtil redisUtil) {
         super(repository, modelMapper, Post.class, PostDTO.class);
         this.redisUtil = redisUtil;
         this.attachService = attachService;

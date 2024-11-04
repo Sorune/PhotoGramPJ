@@ -1,5 +1,6 @@
 package com.sorune.photogrampj.common.config;
 
+import com.sorune.photogrampj.common.filter.CustomAnonymousAuthenticationFilter;
 import com.sorune.photogrampj.common.filter.JwtCheckFilter;
 import com.sorune.photogrampj.common.handler.APILoginFailHandler;
 import com.sorune.photogrampj.common.handler.APILoginSuccessHandler;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,41 +27,59 @@ import java.util.List;
 
 @Configuration
 @EnableMethodSecurity
+@EnableWebSecurity(debug = true)
 @Log4j2
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final APILoginSuccessHandler loginSuccessHandler;
+    private final CustomAnonymousAuthenticationFilter anonymousAuthenticationFilter;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
+                .anonymous(AbstractHttpConfigurer::disable);
+        httpSecurity
                 .cors(httpSecurityCorsConfigurer ->
-                        httpSecurityCorsConfigurer.configurationSource(configurationSource()))
-                .csrf(AbstractHttpConfigurer::disable)
+                        httpSecurityCorsConfigurer.configurationSource(configurationSource()));
+        httpSecurity
+                .csrf(AbstractHttpConfigurer::disable);
+        httpSecurity
                 .sessionManagement(sessionConfig ->
-                        sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        httpSecurity
+                .addFilterBefore(new JwtCheckFilter(), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity
+                .addFilterAfter(anonymousAuthenticationFilter,JwtCheckFilter.class);
+        httpSecurity
                 .authorizeHttpRequests(authorizeHttpRequests ->
                         authorizeHttpRequests
-                                .requestMatchers("/css/**","/js/**","/img/**","/portfolio/**"/*이미지 소스 경로*/).permitAll()
-                                .requestMatchers("/","/**").permitAll()
-                                .requestMatchers("/api/login","/register").permitAll()
-                                .requestMatchers("/api/upload","/api/imageUpload").permitAll()
+                                .requestMatchers("/api/post/**").hasAnyRole("Member", "Anonymous")
+                                .requestMatchers("/css/**", "/js/**", "/img/**", "/portfolio/**"/*이미지 소스 경로*/).permitAll()
+                                .requestMatchers("/", "/**").permitAll()
+                                .requestMatchers("/api/login", "/register").permitAll()
+                                .requestMatchers("/api/upload", "/api/imageUpload").permitAll()
                                 /*테스트용 requestMatchers*/
                                 .requestMatchers("/chat").permitAll()
+                                //프로메테우스 주소 해결
+                                .requestMatchers("/actuator/**","/metrics","/health").permitAll()
                                 .anyRequest().authenticated()
-                )
+                );
+        httpSecurity
                 .formLogin(config->
                         config
                                 .loginPage("/api/login")
-                                .successHandler(new APILoginSuccessHandler())
+                                .successHandler(loginSuccessHandler)
                                 .failureHandler(new APILoginFailHandler())
                                 .permitAll()
-                )
-                .addFilterBefore(new JwtCheckFilter(), UsernamePasswordAuthenticationFilter.class)
+                );
+        httpSecurity
                 .logout(config ->
                         config.logoutUrl("/api/logout")
                                 .logoutSuccessHandler(new APILogoutSuccessHandler())
                                 .permitAll()
-                )
+                );
+        httpSecurity
                 .exceptionHandling(config->
                         config.accessDeniedHandler(new CompositeAccessDeniedHandler())
                                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint())

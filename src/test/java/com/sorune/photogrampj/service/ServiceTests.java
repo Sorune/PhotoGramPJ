@@ -1,10 +1,11 @@
 package com.sorune.photogrampj.service;
 
 import com.sorune.photogrampj.common.enums.PostTypes;
+import com.sorune.photogrampj.common.enums.Roles;
 import com.sorune.photogrampj.content.post.PostDTO;
 import com.sorune.photogrampj.content.post.PostService;
-import com.sorune.photogrampj.member.MemberDTO;
-import com.sorune.photogrampj.member.MemberService;
+import com.sorune.photogrampj.member.member.MemberDTO;
+import com.sorune.photogrampj.member.member.MemberService;
 import groovy.util.logging.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -13,8 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.List;
+import java.util.Map;
+
 @Log4j2
 @SpringBootTest
+//@Transactional
 public class ServiceTests {
 
     private static final Logger log = LoggerFactory.getLogger(ServiceTests.class);
@@ -34,6 +39,7 @@ public class ServiceTests {
             MemberDTO member = MemberDTO.builder()
                     .email("test"+i+"@test.com")
                     .password(passwordEncoder.encode("test"+i))
+                    .role(List.of(Roles.Member))
                     .build();
             memberService.saveOrUpdate(member);
 
@@ -55,4 +61,5 @@ public class ServiceTests {
             log.info(post.toString());
         }
     }
+
 }

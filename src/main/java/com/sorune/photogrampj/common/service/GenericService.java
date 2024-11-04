@@ -25,6 +25,7 @@ public abstract class GenericService<Entity extends BaseEntity, DTO> {
     @PersistenceContext
     private EntityManager em;  // EntityManager 주입
 
+
     public DTO saveOrUpdate(DTO dto) {
         Entity entity = modelMapper.map(dto, entityClass);
         entity = repository.save(entity);

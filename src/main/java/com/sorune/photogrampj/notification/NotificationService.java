@@ -1,7 +1,6 @@
 package com.sorune.photogrampj.notification;
 
 import com.sorune.photogrampj.common.service.GenericService;
-import com.sorune.photogrampj.repository.jpa.NotificationRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
@@ -9,7 +8,7 @@ public class NotificationService extends GenericService<Notification,Notificatio
 
     private final SimpMessagingTemplate messagingTemplate;
 
-    public NotificationService(NotificationRepository repository, ModelMapper modelMapper, SimpMessagingTemplate messagingTemplate) {
+    public NotificationService(JPANotificationRepository repository, ModelMapper modelMapper, SimpMessagingTemplate messagingTemplate) {
         super(repository, modelMapper, Notification.class, NotificationDTO.class);
         this.messagingTemplate = messagingTemplate;
     }
