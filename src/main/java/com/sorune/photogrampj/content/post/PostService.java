@@ -31,7 +31,7 @@ public class PostService extends GenericService<Post,PostDTO> {
         this.fileUtil = fileUtil;
     }
 
-    public PageResponseDTO<PostDTO> findByPostType(PageRequestDTO request, PostTypes postType) {
+    public PageResponseDTO<PostDTO> findAllByPostTypeWithPaging(PageRequestDTO request, PostTypes postType) {
         Pageable pageable = PageRequest.of(request.getPage(), request.getSize(), Sort.by("postId").descending());
         JPAPostRepository postRepository = (JPAPostRepository)super.repository;
         Page<Post> result = postRepository.findAllByPostType(pageable,postType);

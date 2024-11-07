@@ -1,5 +1,6 @@
 package com.sorune.photogrampj.common.util.file;
 
+import com.sorune.photogrampj.content.attachment.AttachmentDTO;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,12 +49,19 @@ public class FileUtil {
         }
     }
 
-    private String saveFile(MultipartFile file, String folderPath) throws IOException {
+    public AttachmentDTO saveFile(MultipartFile file, String folderPath) throws IOException {
         String uuid = UUID.randomUUID().toString();
         String saveName = uploadPath + File.separator + folderPath + File.separator + uuid + "_" + file.getName();
         Path savePath = Paths.get(saveName);
         file.transferTo(savePath);
-        return saveName;
+        return AttachmentDTO.builder()
+                .uuid(uuid)
+                .filePath(folderPath)
+                .fileName(saveName)
+                .fileFullPath(folderPath + File.separator + saveName)
+                .isImage(isCurrentImage(Optional.ofNullable(file.getContentType())))
+                .fileSize(file.getSize())
+                .build();
     }
 
     private boolean deleteFile(String filePullPath){
@@ -67,7 +75,7 @@ public class FileUtil {
     }
 
     //업로드 날짜에 해당하는 폴더 경로 생성
-    private String makeFolder() {
+    public String makeFolder() {
         String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         String folderPath = str.replace("/", File.separator);
         File uploadFolder = new File(uploadPath,folderPath);

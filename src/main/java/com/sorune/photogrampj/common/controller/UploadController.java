@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -42,13 +42,17 @@ public class UploadController {
     public ResponseEntity<List<AttachmentDTO>> upload(MultipartFile[] files){
         List<AttachmentDTO> resultList = new ArrayList<>();
 
+        String folder = fileUtil.makeFolder();
+
+        log.info("folder path : {}",folder);
+
         for(MultipartFile file : files){
-            AttachmentDTO attachmentDTO = AttachmentDTO.builder()
-                    .fileName(file.getName())
-                    .isImage(Objects.requireNonNull(file.getContentType()).toLowerCase().startsWith("image"))
-                    .fileSize(file.getSize())
-                    .build();
-            resultList.add(attachmentDTO);
+            try {
+                AttachmentDTO attachmentDTO = fileUtil.saveFile(file, folder);
+                resultList.add(attachmentDTO);
+            } catch (IOException e){
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
         for (AttachmentDTO result : resultList){
             log.info("result : {}",result.toString());

@@ -1,5 +1,7 @@
 package com.sorune.photogrampj.common.controller;
 
+import com.sorune.photogrampj.common.dto.PageRequestDTO;
+import com.sorune.photogrampj.common.dto.PageResponseDTO;
 import com.sorune.photogrampj.common.enums.PostTypes;
 import com.sorune.photogrampj.content.post.PostDTO;
 import com.sorune.photogrampj.content.post.PostService;
@@ -21,6 +23,12 @@ import java.util.Map;
 public class PostController {
 
     private final PostService postService;
+
+    @GetMapping("/list")
+    public ResponseEntity<PageResponseDTO<PostDTO>> list(PageRequestDTO pageRequestDTO) {
+        PageResponseDTO<PostDTO> responseDTO= postService.findAllByPostTypeWithPaging(pageRequestDTO,PostTypes.Post);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
 
     @PostMapping ("/register")
     public ResponseEntity<Object> register(@RequestBody PostDTO post) {
