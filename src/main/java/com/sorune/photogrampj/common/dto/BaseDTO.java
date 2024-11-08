@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public abstract class BaseDTO {
     @JsonIgnore
-    private LocalDateTime createDate;
-    private LocalDateTime updateDate;
+    private LocalDateTime createDate = LocalDateTime.now();
+    private LocalDateTime updateDate = LocalDateTime.now();
     private boolean isDeleted;
 }

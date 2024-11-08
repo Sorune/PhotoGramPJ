@@ -21,7 +21,7 @@ import java.util.*;
 @Log4j2
 public class FileUtil {
     //파일 확장자 확인용 리스트
-    private final static List<String> ALLOWED_EXTENTIONS = new ArrayList<>(Arrays.asList("jpeg","heif","heic","avif","nef","cr2","orf","rw2","rwl","srw","arw"));
+    private final static List<String> ALLOWED_EXTENSIONS = new ArrayList<>(Arrays.asList("jpeg", "jpg", "heif", "heic", "avif", "nef", "cr2", "orf", "rw2", "rwl", "srw", "arw", "png", "gif", "bmp", "webp", "tiff", "tif", "svg"));
     //메타데이터 처리용 유틸리티
     private final ImageMetaDataProcessUtil metaUtil = new ImageMetaDataProcessUtil();
 
@@ -51,20 +51,20 @@ public class FileUtil {
 
     public AttachmentDTO saveFile(MultipartFile file, String folderPath) throws IOException {
         String uuid = UUID.randomUUID().toString();
-        String saveName = uploadPath + File.separator + folderPath + File.separator + uuid + "_" + file.getName();
+        String saveName = uploadPath + File.separator + folderPath + File.separator + uuid + "_" + file.getOriginalFilename();
         Path savePath = Paths.get(saveName);
         file.transferTo(savePath);
         return AttachmentDTO.builder()
                 .uuid(uuid)
-                .filePath(folderPath)
-                .fileName(saveName)
-                .fileFullPath(folderPath + File.separator + saveName)
+                .filePath(uploadPath + File.separator + folderPath)
+                .fileName(file.getOriginalFilename())
+                .fileFullPath(saveName)
                 .isImage(isCurrentImage(Optional.ofNullable(file.getContentType())))
                 .fileSize(file.getSize())
                 .build();
     }
 
-    private boolean deleteFile(String filePullPath){
+    public boolean deleteFile(String filePullPath){
         File file = new File(filePullPath);
         if(file.exists()){
             if (!file.delete()){
@@ -99,6 +99,6 @@ public class FileUtil {
     //이미지 확장자 일치 여부 확인
     public boolean isCurrentImage(Optional<String> fileType){
         String mimeType = fileType.orElse("file").toLowerCase();
-        return mimeType.startsWith("image/") && ALLOWED_EXTENTIONS.contains(mimeType.substring(6));
+        return mimeType.startsWith("image/") && ALLOWED_EXTENSIONS.contains(mimeType.substring(6));
     }
 }
