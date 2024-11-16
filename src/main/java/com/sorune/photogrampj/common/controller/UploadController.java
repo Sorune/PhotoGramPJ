@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -44,9 +45,9 @@ public class UploadController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<List<AttachmentDTO>> upload(MultipartFile[] files){
+    public ResponseEntity<Map<String,Object>> upload(MultipartFile[] files){
         List<AttachmentDTO> resultList = new ArrayList<>();
-
+        log.info("files length: " + files.length);
         String folder = fileUtil.makeFolder();
 
         log.info("folder path : {}",folder);
@@ -56,7 +57,7 @@ public class UploadController {
                 log.info("file : {}",file.getOriginalFilename());
                 log.info("file type : {}",file.getContentType());
                 AttachmentDTO attachmentDTO = fileUtil.saveFile(file, folder);
-                redisUtil.setValue("attachment:"+attachmentDTO.getUuid(),modelMapper.map(attachmentDTO, RedisAttachment.class));
+                redisUtil.setHashValue("attachment:"+attachmentDTO.getUuid(),modelMapper.map(attachmentDTO, RedisAttachment.class));
                 log.info("Saved Attachment : {}",attachmentDTO.toString());
                 resultList.add(attachmentDTO);
             } catch (IOException e){
@@ -66,12 +67,12 @@ public class UploadController {
                     redisUtil.deleteKey("attachment:"+attach.getUuid());
                     fileUtil.deleteFile(attach.getFileFullPath());
                 }
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>(Map.of("result","upload fail cause IOException"),HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
         for (AttachmentDTO result : resultList){
             log.info("result : {}",result.toString());
         }
-        return new ResponseEntity<>(resultList,HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("result",resultList),HttpStatus.OK);
     }
 }

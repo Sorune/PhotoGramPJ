@@ -42,4 +42,10 @@ public class PostService extends GenericService<Post,PostDTO> {
                 .totalCount(result.getTotalElements())
                 .build();
     }
+
+    public PostDTO getPostWithIncreaseViewCount(Long postId) {
+        PostDTO post = findById(postId);
+        post.setViewCount(post.getViewCount() + 1);
+        return saveOrUpdate(post);
+    }
 }

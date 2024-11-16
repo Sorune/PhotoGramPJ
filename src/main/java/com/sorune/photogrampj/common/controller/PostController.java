@@ -44,9 +44,9 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
-    public PostDTO get(@PathVariable Long postId) {
+    public ResponseEntity<Map<String,Object>> get(@PathVariable Long postId) {
         log.info("get post: {}", postId);
-        return postService.findById(postId);
+        return new ResponseEntity<>(Map.of("post",postService.findById(postId)),HttpStatus.OK);
     }
 
     @PutMapping("/update")
