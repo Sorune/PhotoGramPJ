@@ -33,7 +33,7 @@ public class PageResponseDTO<E> {
 
         int last =  (int)(Math.ceil((totalCount/(double)pageRequestDTO.getSize()))); //진짜 마지막 페이지 계산
 
-        end =  end > last ? last: end; // 마지막 페이지끼리 비교
+        end = Math.min(end, last); // 마지막 페이지끼리 비교
 
         this.prev = start > 1; //처음으로 페이지 표시
 

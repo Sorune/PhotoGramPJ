@@ -32,20 +32,20 @@ public class FileUtil {
     @PostConstruct
     public void init() {
         String envUploadDir = System.getenv("UPLOAD_DIR");
-        log.info("Environment UPLOAD_DIR: " + envUploadDir);
-        log.info("Upload Path from properties: " + uploadPath);
+        log.info("Environment UPLOAD_DIR: {}", envUploadDir);
+        log.info("Upload Path from properties: {}", uploadPath);
         File uploadDirectory = new File(uploadPath);
-        log.info("Checking if directory exists: " + uploadDirectory.getAbsolutePath());
+        log.info("Checking if directory exists: {}", uploadDirectory.getAbsolutePath());
 
         if (!uploadDirectory.exists()) {
             boolean result = uploadDirectory.mkdirs();
             if (result) {
-                log.info("Image Upload Directory Created at: " + uploadDirectory.getAbsolutePath());
+                log.info("Image Upload Directory Created at: {}", uploadDirectory.getAbsolutePath());
             } else {
-                log.error("Failed to create upload directory at: " + uploadDirectory.getAbsolutePath());
+                log.error("Failed to create upload directory at: {}", uploadDirectory.getAbsolutePath());
             }
         } else {
-            log.info("Upload directory already exists at: " + uploadDirectory.getAbsolutePath());
+            log.info("Upload directory already exists at: {}", uploadDirectory.getAbsolutePath());
         }
     }
 
@@ -66,12 +66,14 @@ public class FileUtil {
 
     public boolean deleteFile(String filePullPath){
         File file = new File(filePullPath);
+        boolean result = false;
         if(file.exists()){
-            if (!file.delete()){
+            result = file.delete();
+            if (!result){
                 throw new RuntimeException("Fail to DeleteFile");
             }
         }
-        return true;
+        return result;
     }
 
     //업로드 날짜에 해당하는 폴더 경로 생성

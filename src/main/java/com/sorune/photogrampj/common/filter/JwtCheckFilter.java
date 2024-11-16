@@ -58,7 +58,7 @@ public class JwtCheckFilter extends OncePerRequestFilter {
                 authenticationToken = new UsernamePasswordAuthenticationToken(member, member.getPassword(), member.getRole().stream().map(role -> new SimpleGrantedAuthority(role.name())).collect(Collectors.toList()));
             } else {
                 RedisAnonymousMember member = modelmapper.map(claims,RedisAnonymousMember.class);
-                log.info("member : {}", member.toString());
+                log.info("anonymous member : {}", member.toString());
 
                 authenticationToken = new UsernamePasswordAuthenticationToken(member, null, Collections.singleton(new SimpleGrantedAuthority(member.getRole().name())));
             }

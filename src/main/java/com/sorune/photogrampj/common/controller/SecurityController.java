@@ -17,11 +17,6 @@ import java.util.Map;
 @Log4j2
 public class SecurityController {
 
-    @PostMapping("/login")
-    public String login(){
-        return "member/login";
-    }
-
     @GetMapping("/register")
     public String register(){
         return "member/register";
@@ -30,10 +25,5 @@ public class SecurityController {
     @PostMapping("/register")
     public ResponseEntity<Map<String,Object>> registerMember(){
         return new ResponseEntity<>(Map.of("Result","Success"),HttpStatus.OK);
-    }
-
-    @GetMapping("/logout")
-    public String logout(){
-        return "/";
     }
 }

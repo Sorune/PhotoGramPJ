@@ -3,8 +3,6 @@ package com.sorune.photogrampj.content.attachment;
 import com.sorune.photogrampj.common.dto.BaseDTO;
 import lombok.*;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
 @ToString
