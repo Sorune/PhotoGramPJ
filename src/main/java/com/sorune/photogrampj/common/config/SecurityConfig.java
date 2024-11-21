@@ -54,11 +54,13 @@ public class SecurityConfig {
         httpSecurity
                 .authorizeHttpRequests(authorizeHttpRequests ->
                         authorizeHttpRequests
+                                .requestMatchers("/**").permitAll()
                                 .requestMatchers("/api/post/**").hasAnyRole("Member", "Anonymous")
                                 .requestMatchers("/css/**", "/js/**", "/img/**", "/portfolio/**"/*이미지 소스 경로*/).permitAll()
                                 .requestMatchers("/", "/**").permitAll()
                                 .requestMatchers("/api/login", "/register").permitAll()
                                 .requestMatchers("/api/upload", "/api/imageUpload").permitAll()
+                                .requestMatchers("/post/**").permitAll()
                                 /*테스트용 requestMatchers*/
                                 .requestMatchers("/chat").permitAll()
                                 //프로메테우스 주소 해결

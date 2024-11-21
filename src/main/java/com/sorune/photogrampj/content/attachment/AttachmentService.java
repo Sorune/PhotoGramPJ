@@ -6,6 +6,8 @@ import com.sorune.photogrampj.common.util.redis.RedisUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AttachmentService extends GenericService<Attachment, AttachmentDTO> {
 
@@ -16,5 +18,9 @@ public class AttachmentService extends GenericService<Attachment, AttachmentDTO>
         super(repository, modelMapper, Attachment.class, AttachmentDTO.class);
         this.redisUtil = redisUtil;
         this.fileUtil = fileUtil;
+    }
+
+    public List<Attachment> saveAttachment(List<AttachmentDTO> attachmentDTO){
+        return null;
     }
 }

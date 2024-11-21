@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JPAPostRepository extends JpaRepository<Post,Long> {
-
-    Page<Post> findAllByPostType(Pageable pageable,PostTypes postTypes);
+  
+    Page<Post> findAllByPostType(Pageable pageable, PostTypes postTypes);
 }
