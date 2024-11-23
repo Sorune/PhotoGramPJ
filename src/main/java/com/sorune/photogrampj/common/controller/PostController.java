@@ -60,9 +60,6 @@ public class PostController {
     @PutMapping("/update")
     public ResponseEntity<Map<String, Object>> update(@RequestBody PostDTO post) {
         log.info("update post: {}", post);
-        if (postService.findById(post.getPostId()) == null) {
-            return new ResponseEntity<>(Map.of("error", "???"), HttpStatus.BAD_REQUEST);
-        }
         PostDTO existPost = postService.findById(post.getPostId());
         post.setCreateDate(existPost.getCreateDate());
         post = postService.saveOrUpdate(post);
