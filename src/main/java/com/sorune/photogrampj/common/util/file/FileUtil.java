@@ -1,5 +1,6 @@
 package com.sorune.photogrampj.common.util.file;
 
+import com.sorune.photogrampj.content.attachment.AttachmentDTO;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +21,7 @@ import java.util.*;
 @Log4j2
 public class FileUtil {
     //파일 확장자 확인용 리스트
-    private final static List<String> ALLOWED_EXTENTIONS = new ArrayList<>(Arrays.asList("jpeg","heif","heic","avif","nef","cr2","orf","rw2","rwl","srw","arw"));
+    private final static List<String> ALLOWED_EXTENSIONS = new ArrayList<>(Arrays.asList("jpeg", "jpg", "heif", "heic", "avif", "nef", "cr2", "orf", "rw2", "rwl", "srw", "arw", "png", "gif", "bmp", "webp", "tiff", "tif", "svg"));
     //메타데이터 처리용 유틸리티
     private final ImageMetaDataProcessUtil metaUtil = new ImageMetaDataProcessUtil();
 
@@ -31,43 +32,52 @@ public class FileUtil {
     @PostConstruct
     public void init() {
         String envUploadDir = System.getenv("UPLOAD_DIR");
-        log.info("Environment UPLOAD_DIR: " + envUploadDir);
-        log.info("Upload Path from properties: " + uploadPath);
+        log.info("Environment UPLOAD_DIR: {}", envUploadDir);
+        log.info("Upload Path from properties: {}", uploadPath);
         File uploadDirectory = new File(uploadPath);
-        log.info("Checking if directory exists: " + uploadDirectory.getAbsolutePath());
+        log.info("Checking if directory exists: {}", uploadDirectory.getAbsolutePath());
 
         if (!uploadDirectory.exists()) {
             boolean result = uploadDirectory.mkdirs();
             if (result) {
-                log.info("Image Upload Directory Created at: " + uploadDirectory.getAbsolutePath());
+                log.info("Image Upload Directory Created at: {}", uploadDirectory.getAbsolutePath());
             } else {
-                log.error("Failed to create upload directory at: " + uploadDirectory.getAbsolutePath());
+                log.error("Failed to create upload directory at: {}", uploadDirectory.getAbsolutePath());
             }
         } else {
-            log.info("Upload directory already exists at: " + uploadDirectory.getAbsolutePath());
+            log.info("Upload directory already exists at: {}", uploadDirectory.getAbsolutePath());
         }
     }
 
-    private String saveFile(MultipartFile file, String folderPath) throws IOException {
+    public AttachmentDTO saveFile(MultipartFile file, String folderPath) throws IOException {
         String uuid = UUID.randomUUID().toString();
-        String saveName = uploadPath + File.separator + folderPath + File.separator + uuid + "_" + file.getName();
+        String saveName = uploadPath + File.separator + folderPath + File.separator + uuid + "_" + file.getOriginalFilename();
         Path savePath = Paths.get(saveName);
         file.transferTo(savePath);
-        return saveName;
+        return AttachmentDTO.builder()
+                .uuid(uuid)
+                .filePath(uploadPath + File.separator + folderPath)
+                .fileName(file.getOriginalFilename())
+                .fileFullPath(saveName)
+                .isImage(isCurrentImage(Optional.ofNullable(file.getContentType())))
+                .fileSize(file.getSize())
+                .build();
     }
 
-    private boolean deleteFile(String filePullPath){
+    public boolean deleteFile(String filePullPath){
         File file = new File(filePullPath);
+        boolean result = false;
         if(file.exists()){
-            if (!file.delete()){
+            result = file.delete();
+            if (!result){
                 throw new RuntimeException("Fail to DeleteFile");
             }
         }
-        return true;
+        return result;
     }
 
     //업로드 날짜에 해당하는 폴더 경로 생성
-    private String makeFolder() {
+    public String makeFolder() {
         String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         String folderPath = str.replace("/", File.separator);
         File uploadFolder = new File(uploadPath,folderPath);
@@ -91,6 +101,6 @@ public class FileUtil {
     //이미지 확장자 일치 여부 확인
     public boolean isCurrentImage(Optional<String> fileType){
         String mimeType = fileType.orElse("file").toLowerCase();
-        return mimeType.startsWith("image/") && ALLOWED_EXTENTIONS.contains(mimeType.substring(6));
+        return mimeType.startsWith("image/") && ALLOWED_EXTENSIONS.contains(mimeType.substring(6));
     }
 }

@@ -1,6 +1,6 @@
 package com.sorune.photogrampj.common.enums;
 
-public enum MessageType {
+public enum MessageTypes {
     Join,
     Talk,
     Notification

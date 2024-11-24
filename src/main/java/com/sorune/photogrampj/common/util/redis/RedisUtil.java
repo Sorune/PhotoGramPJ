@@ -1,17 +1,21 @@
 package com.sorune.photogrampj.common.util.redis;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Component
 public class RedisUtil {
 
     private final RedisTemplate<String, Object> redisTemplate;
+    private final ModelMapper modelMapper;
 
-    public RedisUtil(RedisTemplate<String,Object> redisTemplate){
+    public RedisUtil(RedisTemplate<String,Object> redisTemplate, ModelMapper modelMapper){
         this.redisTemplate = redisTemplate;
+        this.modelMapper = modelMapper;
     }
 
     // String 타입의 값을 Redis에 저장
@@ -22,6 +26,10 @@ public class RedisUtil {
     // String 타입의 값을 Redis에 저장하고, 만료 시간 설정
     public void setValueWithExpiration(String key, Object value, long timeout, TimeUnit unit) {
         redisTemplate.opsForValue().set(key, value, timeout, unit);
+    }
+
+    public void setHashValue(String key, Object value) {
+        redisTemplate.opsForHash().putAll(key, modelMapper.map(value, Map.class));
     }
 
     // Redis에서 값을 조회

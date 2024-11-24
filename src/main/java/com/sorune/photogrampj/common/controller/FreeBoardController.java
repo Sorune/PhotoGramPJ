@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,43 +21,44 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/post")
+@RequestMapping("/free")
 @RequiredArgsConstructor
 @Log4j2
-@Transactional
-public class PostController {
-
+public class FreeBoardController {
     private final PostService postService;
     private final AttachmentService attachmentService;
 
     @GetMapping("/list")
-    public ResponseEntity<PageResponseDTO<PostDTO>> list(PageRequestDTO pageRequestDTO) {
-        PageResponseDTO<PostDTO> responseDTO= postService.findAllByPostTypeWithPaging(pageRequestDTO,PostTypes.Post);
+    public ResponseEntity<PageResponseDTO<PostDTO>> list(PageRequestDTO pageRequestDTO){
+        PageResponseDTO<PostDTO> responseDTO = postService.findAllByPostTypeWithPaging(pageRequestDTO, PostTypes.Community);
+
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
-    @PostMapping ("/register")
-    public ResponseEntity<Object> register(@RequestBody PostDTO post) {
-        log.info("PostController register method called");
+    @PostMapping("/register")
+    public ResponseEntity<Object> register(@RequestBody PostDTO post){
+        log.info("FreeBoardController regist method called");
 
-     //   log.debug(SecurityContextHolder.getContext().getAuthentication());
-        post.setPostType(PostTypes.Post);
+        post.setPostType(PostTypes.Community);
         log.info("register post: {}", post);
         log.info("register post member : {}", post.getWriter().toString());
-        if(post.getAttachments() != null){
+        log.info("register post attachments : {}",post.getAttachments().toString());
+        if(post.getAttachments()!= null){
             List<AttachmentDTO> savedAttachments = new ArrayList<>();
             for(AttachmentDTO attach : post.getAttachments()){
                 savedAttachments.add(attachmentService.saveOrUpdate(attach));
+
             }
             post.setAttachments(savedAttachments);
         }
-        post = postService.saveOrUpdate(post);
+        postService.saveOrUpdate(post);
         post.getWriter().setPassword(null);
-        return new ResponseEntity<>(Map.of("Post",post), HttpStatus.OK);
+
+        return new ResponseEntity<>(Map.of("post", post), HttpStatus.OK);
     }
 
     @GetMapping("/{postId}")
-    public ResponseEntity<Map<String,Object>> get(@PathVariable Long postId) {
+    public ResponseEntity<Map<String,Object>> get(@PathVariable Long postId){
         log.info("get post: {}", postId);
         try {
             PostDTO post = postService.findById(postId);
@@ -70,7 +71,7 @@ public class PostController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Map<String, Object>> update(@RequestBody PostDTO post) {
+    public ResponseEntity<Map<String,Object>> update(@RequestBody PostDTO post){
         log.info("update post: {}", post);
         PostDTO existPost = postService.findById(post.getPostId());
         post.setCreateDate(existPost.getCreateDate());

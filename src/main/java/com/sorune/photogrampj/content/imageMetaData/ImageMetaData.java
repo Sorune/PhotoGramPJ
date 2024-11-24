@@ -21,7 +21,7 @@ public class ImageMetaData extends BaseEntity {
     @GeneratedValue
     private long metaId;
 
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
             name = "meta_data_tags",
             joinColumns = @JoinColumn(name = "meta_id"),
