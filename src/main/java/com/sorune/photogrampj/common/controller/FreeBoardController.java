@@ -3,6 +3,8 @@ package com.sorune.photogrampj.common.controller;
 import com.sorune.photogrampj.common.dto.PageRequestDTO;
 import com.sorune.photogrampj.common.dto.PageResponseDTO;
 import com.sorune.photogrampj.common.enums.PostTypes;
+import com.sorune.photogrampj.content.attachment.AttachmentDTO;
+import com.sorune.photogrampj.content.attachment.AttachmentService;
 import com.sorune.photogrampj.content.post.PostDTO;
 import com.sorune.photogrampj.content.post.PostService;
 import jakarta.persistence.EntityNotFoundException;
@@ -14,15 +16,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/free")
 @RequiredArgsConstructor
 @Log4j2
-@Transactional
 public class FreeBoardController {
     private final PostService postService;
+    private final AttachmentService attachmentService;
 
     @GetMapping("/list")
     public ResponseEntity<PageResponseDTO<PostDTO>> list(PageRequestDTO pageRequestDTO){
@@ -38,6 +42,15 @@ public class FreeBoardController {
         post.setPostType(PostTypes.Community);
         log.info("register post: {}", post);
         log.info("register post member : {}", post.getWriter().toString());
+        log.info("register post attachments : {}",post.getAttachments().toString());
+        if(post.getAttachments()!= null){
+            List<AttachmentDTO> savedAttachments = new ArrayList<>();
+            for(AttachmentDTO attach : post.getAttachments()){
+                savedAttachments.add(attachmentService.saveOrUpdate(attach));
+
+            }
+            post.setAttachments(savedAttachments);
+        }
         postService.saveOrUpdate(post);
         post.getWriter().setPassword(null);
 

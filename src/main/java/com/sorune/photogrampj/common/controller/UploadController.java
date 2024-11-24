@@ -57,14 +57,14 @@ public class UploadController {
                 log.info("file : {}",file.getOriginalFilename());
                 log.info("file type : {}",file.getContentType());
                 AttachmentDTO attachmentDTO = fileUtil.saveFile(file, folder);
-                redisUtil.setHashValue("attachment:"+attachmentDTO.getUuid(),modelMapper.map(attachmentDTO, RedisAttachment.class));
+//                redisUtil.setHashValue("attachment:"+attachmentDTO.getUuid(),modelMapper.map(attachmentDTO, RedisAttachment.class));
                 log.info("Saved Attachment : {}",attachmentDTO.toString());
                 resultList.add(attachmentDTO);
             } catch (IOException e){
                 log.info("IOException : {}",e.getMessage());
                 for(AttachmentDTO attach : resultList){
                     log.info("Delete Attachment : {}",attach.toString());
-                    redisUtil.deleteKey("attachment:"+attach.getUuid());
+//                    redisUtil.deleteKey("attachment:"+attach.getUuid());
                     fileUtil.deleteFile(attach.getFileFullPath());
                 }
                 return new ResponseEntity<>(Map.of("result","upload fail cause IOException"),HttpStatus.INTERNAL_SERVER_ERROR);
