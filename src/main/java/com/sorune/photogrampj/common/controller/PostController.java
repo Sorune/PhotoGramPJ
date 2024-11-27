@@ -63,4 +63,5 @@ public class PostController {
         log.info("delete post: {}", postId);
         return postService.delete(postId);
     }
+
 }

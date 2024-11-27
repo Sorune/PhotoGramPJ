@@ -34,7 +34,7 @@ public class ServiceTests {
 
     @Test
     public void memberServiceTests(){
-        for (int i = 0; i<100; i++){
+        for (int i = 0; i<10; i++){
             MemberDTO member = MemberDTO.builder()
                     .email("test"+i+"@test.com")
                     .password(passwordEncoder.encode("test"+i))

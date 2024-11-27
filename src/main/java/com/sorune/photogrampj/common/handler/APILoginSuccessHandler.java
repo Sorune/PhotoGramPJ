@@ -6,6 +6,7 @@ import com.sorune.photogrampj.common.util.jwt.RedisJwtRefreshToken;
 import com.sorune.photogrampj.common.util.jwt.RedisJwtRefreshTokenRepository;
 import com.sorune.photogrampj.member.member.MemberService;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,6 @@ public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-
         String accessToken = JwtUtil.generateToken(memberService.findByEmail(authentication.getName()),ACCESS_TOKEN_EXPIRE);
         String refreshToken = JwtUtil.generateToken(memberService.findByEmail(authentication.getName()),REFRESH_TOKEN_EXPIRE);
 
@@ -40,10 +40,29 @@ public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
 
         refreshTokenRepository.save(redisToken);
 
+        if(authentication.getName().startsWith("OAuth2:")){
+            response.addCookie(createCookie("Authorization", "Bearer_"+accessToken));
+            response.sendRedirect("http://localhost:3000/"); //프론트로 리다이랙트
+            return;
+        }
+
         Gson gson = new Gson();
         String jsonString = gson.toJson(Map.of("ACCESS_TOKEN", accessToken, "REFRESH_TOKEN", refreshToken,"Anonymous",false));
-        response.setHeader("Authorization","Baerer "+ accessToken);
+        response.setHeader("Authorization","Bearer_"+ accessToken);
         response.setContentType("application/json;charset=utf-8");
         response.getWriter().write(jsonString);
+
+
+    }
+
+    private Cookie createCookie(String key, String value) {
+
+        Cookie cookie = new Cookie(key, value);
+        cookie.setMaxAge(60 * 30);
+        //cookie.setSecure(true);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+
+        return cookie;
     }
 }

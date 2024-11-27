@@ -57,7 +57,7 @@ public class UploadController {
                 log.info("file : {}",file.getOriginalFilename());
                 log.info("file type : {}",file.getContentType());
                 AttachmentDTO attachmentDTO = fileUtil.saveFile(file, folder);
-                redisUtil.setHashValue("attachment:"+attachmentDTO.getUuid(),modelMapper.map(attachmentDTO, RedisAttachment.class));
+                //redisUtil.setHashValue("attachment:"+attachmentDTO.getUuid(),modelMapper.map(attachmentDTO, RedisAttachment.class));
                 log.info("Saved Attachment : {}",attachmentDTO.toString());
                 resultList.add(attachmentDTO);
             } catch (IOException e){

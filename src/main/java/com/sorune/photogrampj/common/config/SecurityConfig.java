@@ -6,6 +6,7 @@ import com.sorune.photogrampj.common.handler.APILoginFailHandler;
 import com.sorune.photogrampj.common.handler.APILoginSuccessHandler;
 import com.sorune.photogrampj.common.handler.APILogoutSuccessHandler;
 import com.sorune.photogrampj.common.handler.CustomAuthenticationEntryPoint;
+import com.sorune.photogrampj.common.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.CompositeAccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -35,6 +37,8 @@ public class SecurityConfig {
     private final APILoginSuccessHandler loginSuccessHandler;
     private final CustomAnonymousAuthenticationFilter anonymousAuthenticationFilter;
 
+    private final CustomOAuth2UserService customOAuth2UserService;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
@@ -51,6 +55,8 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtCheckFilter(), UsernamePasswordAuthenticationFilter.class);
         httpSecurity
                 .addFilterAfter(anonymousAuthenticationFilter,JwtCheckFilter.class);
+        httpSecurity
+                .addFilterAfter(new JwtCheckFilter(), OAuth2LoginAuthenticationFilter.class);
         httpSecurity
                 .authorizeHttpRequests(authorizeHttpRequests ->
                         authorizeHttpRequests
@@ -80,11 +86,18 @@ public class SecurityConfig {
                                 .permitAll()
                 );
         httpSecurity
+                .oauth2Login(config ->
+                        config.userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
+                                .userService(customOAuth2UserService))
+                                .successHandler(loginSuccessHandler)
+                );
+        httpSecurity
                 .exceptionHandling(config->
                         config.accessDeniedHandler(new CompositeAccessDeniedHandler())
                                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 )
         ;
+
 
         return httpSecurity.build();
     }
@@ -101,6 +114,9 @@ public class SecurityConfig {
         //setAllowedMethods : 허용할 HTTP 메소드 설정
         //setAllowedHeaders : 실제 요청 중에 사용이 허용되도록 사전 요청이 나열할 수 있는 헤더 목록을 설정.
         //setAllowedCredentials : 사용자 자격 증명이 지원되는지 여부
+
+        configuration.setExposedHeaders(List.of("Set-Cookie","Authorization"));
+
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**",configuration);

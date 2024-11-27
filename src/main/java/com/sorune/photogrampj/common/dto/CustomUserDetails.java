@@ -16,7 +16,19 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class CustomUserDetails implements UserDetails, OAuth2User {
     private MemberDTO member;
+    private OAuth2Response oAuth2Response;
     private final ModelMapper modelMapper = new ModelMapper();
+
+    /** 일반 회원가입 유저 */
+    public CustomUserDetails(MemberDTO member) {
+        this.member = member;
+    }
+
+    /** OAuth2 회원가입 유저 */
+    public CustomUserDetails(OAuth2Response oAuth2Response, MemberDTO member) {
+        this.oAuth2Response = oAuth2Response;
+        this.member = member;
+    }
 
     @Override
     public Map<String, Object> getAttributes() {
@@ -43,5 +55,14 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
     @Override
     public String getName() {
         return member.getEmail();
+//        return member.getNickName();
     }
+
+    public String getProvider(){
+        if(oAuth2Response==null){
+            return "PhotogramPJ";
+        }
+        return oAuth2Response.getProvider();
+    }
+
 }

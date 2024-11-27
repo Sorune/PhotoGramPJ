@@ -5,6 +5,7 @@ import com.sorune.photogrampj.member.anonymous.RedisAnonymousMember;
 import com.sorune.photogrampj.member.member.MemberDTO;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
@@ -38,9 +39,19 @@ public class JwtCheckFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
         String authHeaderString = request.getHeader("Authorization");
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("Authorization")) {
+//                authHeaderString = cookie.getValue();
+                authHeaderString = cookie.getValue();
+            }
+        }
+
+
+
         log.info("authHeaderString : {}",authHeaderString);
         // Authorization 헤더가 없거나 Bearer 토큰이 없으면 바로 필터 체인 넘기기
-        if (authHeaderString == null || !authHeaderString.startsWith("Bearer ")) {
+        if (authHeaderString == null || !authHeaderString.startsWith("Bearer_")) {
             log.info("Authorization Header is Null");
             filterChain.doFilter(request, response);
         }

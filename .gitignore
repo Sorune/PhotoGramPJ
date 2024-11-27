@@ -41,6 +41,7 @@ out/
 
 ### Docker ###
 *.env
+
 ###HTML###
 /vender/
 /src/main/resources/static/vender/

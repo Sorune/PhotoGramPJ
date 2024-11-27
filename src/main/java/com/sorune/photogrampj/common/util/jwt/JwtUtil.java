@@ -9,6 +9,7 @@ import io.jsonwebtoken.security.Keys;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -23,11 +24,18 @@ import java.util.Optional;
 public class JwtUtil {
     private static final ModelMapper modelMapper = new ModelMapper();
     private static final ObjectMapper objectMapper = new ObjectMapper();
-    private static final String SECRETE_KEY = "123456789123456789123456789123456789123456789";
-    
+
+//    private static final String SECRETE_KEY = "12345678912345678912345678912345678912345678956789123456789123456789123456789123456789";
+
+    private static SecretKey key ;
+    public JwtUtil(@Value("${spring.jwt.secretKey}")String secret) {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    }
+
+
     //회원 정보를 토대로 토큰 생성
     public static String generateToken(MemberDTO member, int min){
-        SecretKey key = Keys.hmacShaKeyFor(JwtUtil.SECRETE_KEY.getBytes(StandardCharsets.UTF_8));
+//        SecretKey key = Keys.hmacShaKeyFor(JwtUtil.SECRETE_KEY.getBytes(StandardCharsets.UTF_8));
         //토큰 생성시 패스워드 정보 초기화로 토큰에서 패스워드 제거
         member.setPassword(null);
         log.info(member.toString());
@@ -45,7 +53,7 @@ public class JwtUtil {
     }
     //익명 유저의 토큰 생성 메서드 오버로딩 활용
     public static String generateToken(RedisAnonymousMember member, int min){
-        SecretKey key = Keys.hmacShaKeyFor(SECRETE_KEY.getBytes(StandardCharsets.UTF_8));
+//        SecretKey key = Keys.hmacShaKeyFor(SECRETE_KEY.getBytes(StandardCharsets.UTF_8));
         member.setExpiredTime(min);
         Map<String,Object> claims = modelMapper.map(member , HashMap.class);
         log.info("claims : {}",claims);
@@ -65,7 +73,7 @@ public class JwtUtil {
 
         try {
             log.info("parse token : {}",token);
-            SecretKey key = Keys.hmacShaKeyFor(JwtUtil.SECRETE_KEY.getBytes(StandardCharsets.UTF_8));
+//            SecretKey key = Keys.hmacShaKeyFor(JwtUtil.SECRETE_KEY.getBytes(StandardCharsets.UTF_8));
             Claims claim = Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
             ObjectMapper objectMapper = new ObjectMapper();
             Map<String, Object> claims = objectMapper.registerModule(new JavaTimeModule()).convertValue(claim,Map.class);
@@ -106,7 +114,8 @@ public class JwtUtil {
     public static boolean isValid(String token) {
         try {
             Jwts.parser()
-                    .verifyWith(Keys.hmacShaKeyFor(SECRETE_KEY.getBytes(StandardCharsets.UTF_8)))
+//                    .verifyWith(Keys.hmacShaKeyFor(SECRETE_KEY.getBytes(StandardCharsets.UTF_8)))
+                    .verifyWith(key)
                     .build()
                     .parseSignedClaims(token)
                     .getPayload();
